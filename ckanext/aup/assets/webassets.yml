@@ -1,0 +1,14 @@
+# aup-js:
+#   filter: rjsmin
+#   output: ckanext-aup/%(version)s-aup.js
+#   contents:
+#     - js/aup.js
+#   extra:
+#     preload:
+#       - base/main
+
+# aup-css:
+#   filter: cssrewrite
+#   output: ckanext-aup/%(version)s-aup.css
+#   contents:
+#     - css/aup.css
