@@ -22,7 +22,7 @@ def aup_clear(user_obj):
     """
     return False
 
-def aup_revision():
+def aup_revision(user_obj):
     """Return a string with the current Acceptable Use Policy revision
 
     :rtype: string
