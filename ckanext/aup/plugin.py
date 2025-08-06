@@ -37,6 +37,9 @@ class AupPlugin(plugins.SingletonPlugin):
     def aup_revision(self, user_obj):
         return logic.aup_revision(user_obj)
 
+    def aup_published(self):
+        return logic.aup_published()
+
     # IActions
 
     def get_actions(self):

@@ -28,8 +28,20 @@ def aup_revision():
     return None
 
 
+def aup_published():
+    """Return the current revision of the AUP that the system is enforcing"""
+
+    for impl in p.PluginImplementations(interface.IAcceptableUse):
+        revision = impl.aup_published()
+        if revision:
+            return revision
+
+    return ""
+
+
 def get_helpers():
     return {
         "aup_changed": aup_changed,
         "aup_revision": aup_revision,
+        "aup_published": aup_published,
     }

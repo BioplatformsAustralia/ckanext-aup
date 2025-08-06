@@ -31,7 +31,14 @@ class IAcceptableUse(interfaces.Interface):
         return False
 
     def aup_revision(self):
-        """Return a string with the current Acceptable Use Policy revision
+        """Return a string with the current Acceptable Use Policy revision for the user
+
+        :rtype: string
+        """
+        return ""
+
+    def aup_published(self):
+        """Return a string with the current Acceptable Use Policy revision that is required
 
         :rtype: string
         """
