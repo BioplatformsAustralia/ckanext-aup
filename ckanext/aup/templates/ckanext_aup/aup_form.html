@@ -1,0 +1,14 @@
+{% import 'macros/form.html' as form %}
+
+<form class="dataset-form form-horizontal" method="post" data-module="basic-form" id="aup-form">
+<input id="field-revision" type="hidden" name="revision" value="{{ h.get_aup_current_revision() }}">
+<div class="form-actions">
+  <div class="btn-toolbar pull-right">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+    <button class="btn btn-primary" name="save" type="submit">
+       <i class="fa fa-plus-circle"></i>
+       {% block accept_text %}{{ _('Accept') }}{% endblock %}
+    </button>
+  </div>
+</div>
+</form>
