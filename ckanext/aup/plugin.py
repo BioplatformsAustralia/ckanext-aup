@@ -2,12 +2,14 @@ import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 import ckanext.aup.logic as logic
 import ckanext.aup.action as action
+import ckanext.aup.views as views
 
 
 class AupPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IActions)
+    plugins.implements(plugins.IBlueprint)
     plugins.implements(interface.IAcceptableUse, inherit=True)
     
 
@@ -44,3 +46,8 @@ class AupPlugin(plugins.SingletonPlugin):
 
     def get_actions(self):
         return action.get_actions()
+
+    # IBlueprint
+
+    def get_blueprint(self):
+        return views.get_blueprints()
