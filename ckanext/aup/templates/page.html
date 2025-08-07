@@ -2,9 +2,15 @@
 
 {% block main_content %}
 
-<p>Add logic here to handle AUP check</p>
+{% if h.aup_changed() %}
+
+{% snippet 'ckanext_aup/aup.html' %}
+
+{% else %}
 
 {{ super() }}
+
+{% endif %}
 
 
 {% endblock %}

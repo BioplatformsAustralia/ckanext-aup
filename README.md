@@ -59,6 +59,7 @@ To install ckanext-aup:
 
 ## Config settings
 
+FIXME
 None at present
 
 **TODO:** Document any optional config settings here. For example:
@@ -66,6 +67,9 @@ None at present
 	# The minimum number of hours to wait before re-checking a resource
 	# (optional, default: 24).
 	ckanext.aup.some_setting = some_default_value
+
+        # FIXME Add config declarations
+        ckanext.aup.policy_revision = 0.1
 
 
 ## Developer installation

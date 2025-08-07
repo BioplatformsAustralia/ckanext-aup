@@ -6,6 +6,9 @@ import ckan.logic as logic
 import ckan.lib.helpers as h
 import ckan.lib.navl.dictization_functions as dict_fns
 
+from logging import getLogger
+
+logger = getLogger(__name__)
 
 aup = Blueprint("aup", __name__)
 
