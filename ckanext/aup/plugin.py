@@ -3,6 +3,8 @@ import ckan.plugins.toolkit as toolkit
 import ckanext.aup.logic as logic
 import ckanext.aup.action as action
 import ckanext.aup.views as views
+import ckanext.aup.interface as interface
+import ckanext.aup.helpers as helpers
 
 
 class AupPlugin(plugins.SingletonPlugin):
