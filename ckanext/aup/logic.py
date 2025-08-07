@@ -17,7 +17,7 @@ def _get_user(user_obj):
 
 def _get_admin_ctx():
     site_user = tk.get_action("get_site_user")({'ignore_auth': True}, {})["name"]
-    admin_ctx = {"ignore_auth": True, "user": self.site_user }
+    admin_ctx = {"ignore_auth": True, "user": site_user }
     return admin_ctx
 
 def _get_aup(user_obj):
