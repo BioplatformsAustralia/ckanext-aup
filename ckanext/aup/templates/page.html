@@ -1,8 +1,10 @@
 {% ckan_extends %}
 
+{% set logged_in = true if c.userobj else false %}
+
 {% block main_content %}
 
-{% if h.aup_changed() %}
+{% if logged_in and h.aup_changed() %}
 
 {% snippet 'ckanext_aup/aup.html' %}
 
