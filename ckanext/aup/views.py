@@ -25,7 +25,8 @@ def aup_update():
         logger.warn(form_dict)
 
         data_dict = {
-            "user_id": user_id,
+            # FIXME allow override by API call
+            "user_id": g.userobj.id,
         }
 
         # Accept the AUP

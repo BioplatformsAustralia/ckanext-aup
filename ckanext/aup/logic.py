@@ -1,5 +1,6 @@
 import ckan.plugins.toolkit as tk
 from ckan.common import g
+from ckan import logic
 
 AUP_KEY="acceptable_use_policy_revision"
 
@@ -8,6 +9,9 @@ CONFIG_AUP_REVISION = "ckanext.aup.policy_revision"
 CONFIG_AUP_REVISION_DEFAULT = "0.1"
 
 def _get_user(user_obj):
+    if not user_obj:
+        raise login.NotFound
+
     # Default to own user
     username = user_obj.name
 
