@@ -5,7 +5,7 @@ from ckan.logic import validate
 from ckanext.toolbelt.decorators import Collector
 from . import schema
 
-action, get_actions = Collector("aup").split()
+action, get_actions = Collector().split()
 
 
 @action
@@ -39,5 +39,14 @@ def aup_clear(context, data_dict):
 
     # retreive user obj
     # only update non-self user if admin
+
+    return
+
+
+@action
+@tk.side_effect_free
+@validate(schema.aup_published)
+def aup_published(context, data_dict):
+    tk.check_access("aup_published", context, data_dict)
 
     return

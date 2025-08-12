@@ -57,3 +57,8 @@ def aup_clear():
             convert_user_name_or_id_to_id,
         ],
     }
+
+
+def aup_published():
+
+    return {}

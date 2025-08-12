@@ -83,3 +83,12 @@ def aup_revision(user_obj):
     user_revision = _get_aup(user_obj)
 
     return '' if user_revision is None else str(user_revision)
+
+def aup_published():
+    """Return a string with the current Acceptable Use Policy revision that is required
+
+    :rtype: string
+    """
+    current_revision = tk.config.get(CONFIG_AUP_REVISION, CONFIG_AUP_REVISION_DEFAULT)
+
+    return current_revision
