@@ -10,7 +10,7 @@
       {% block aup %}
           <h1 class="page-heading">{{ _('Acceptable Use Policy') }}</h1>
           <p>
-          Revision FIXME
+          Revision {{ h.aup_published() }}
           </p>
           {% snippet 'snippets/acceptable_use.html' %}
           {% snippet 'ckanext_aup/aup_form.html' %}
