@@ -16,7 +16,7 @@ class IAcceptableUse(interfaces.Interface):
         """
         return False
 
-    def aup_update(self, user_obj):
+    def aup_update(self, user_obj, revision):
         """Update users acceptance of the Acceptable Use Policy
 
         :rtype: bool
