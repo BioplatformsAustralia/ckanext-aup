@@ -50,7 +50,11 @@ def aup_revision(context, data_dict):
 
     userobj = _get_userobj(context, data_dict)
 
-    return
+    revision = None
+    for impl in p.PluginImplementations(interface.IAcceptableUse):
+        revision = impl.aup_revision(userobj)
+
+    return revision or ""
 
 
 @action
@@ -61,7 +65,11 @@ def aup_clear(context, data_dict):
 
     userobj = _get_userobj(context, data_dict)
 
-    return
+    clear = False
+    for impl in p.PluginImplementations(interface.IAcceptableUse):
+        revision = impl.aup_clear(userobj)
+
+    return clear
 
 
 @action
