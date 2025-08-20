@@ -26,7 +26,7 @@ def aup_update():
 
         data_dict = {
             # FIXME allow override by API call
-            "user_id": g.userobj.id,
+            "user_name": g.userobj.name,
         }
 
         # Accept the AUP

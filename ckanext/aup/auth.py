@@ -35,8 +35,6 @@ def _only_admin_user_for_field(data_dict, field):
 
 @action
 def aup_update(context, data_dict):
-    tk.check_access("aup_update", context, data_dict)
-
     # retreive user obj
     # only update non-self user if admin
     # only to provided revision if admin
@@ -46,8 +44,6 @@ def aup_update(context, data_dict):
 
 @action
 def aup_revision(context, data_dict):
-    tk.check_access("aup_revision", context, data_dict)
-
     # retreive user obj
     # only non-self user if admin
 
@@ -56,8 +52,6 @@ def aup_revision(context, data_dict):
 
 @action
 def aup_clear(context, data_dict):
-    tk.check_access("aup_clear", context, data_dict)
-
     # retreive user obj
     # only update non-self user if admin
 

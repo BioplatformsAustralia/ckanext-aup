@@ -34,17 +34,17 @@ class AupPlugin(plugins.SingletonPlugin):
     
     # IAcceptableUse
 
-    def aup_changed(self, userobj):
-        return logic.aup_changed(userobj)
+    def aup_changed(self, user_name):
+        return logic.aup_changed(user_name)
 
-    def aup_update(self, userobj, revision):
-        return logic.aup_update(userobj, revision)
+    def aup_update(self, user_name, revision):
+        return logic.aup_update(user_name, revision)
 
-    def aup_clear(self, userobj):
-        return logic.aup_clear(userobj)
+    def aup_clear(self, user_name):
+        return logic.aup_clear(user_name)
 
-    def aup_revision(self, userobj):
-        return logic.aup_revision(userobj)
+    def aup_revision(self, user_name):
+        return logic.aup_revision(user_name)
 
     def aup_published(self):
         return logic.aup_published()

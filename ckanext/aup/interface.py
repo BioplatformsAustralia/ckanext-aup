@@ -6,7 +6,7 @@ import ckan.plugins.interfaces as interfaces
 
 
 class IAcceptableUse(interfaces.Interface):
-    def aup_changed(self, user_obj):
+    def aup_changed(self, user_name):
         """Return True if the Acceptable Use Policy has been updated
 
         This will return True if the Acceptable Use Policy was
@@ -16,14 +16,14 @@ class IAcceptableUse(interfaces.Interface):
         """
         return False
 
-    def aup_update(self, user_obj, revision):
+    def aup_update(self, user_name, revision):
         """Update users acceptance of the Acceptable Use Policy
 
         :rtype: bool
         """
         return True
 
-    def aup_clear(self, user_obj):
+    def aup_clear(self, user_name):
         """Clear users acceptance of the Acceptable Use Policy
 
         :rtype: bool

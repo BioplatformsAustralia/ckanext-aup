@@ -1,29 +1,39 @@
 import ckan.plugins as p
 import ckanext.aup.interface as interface
-from ckan.common import c
+import ckan.plugins.toolkit as tk
+import ckan.lib.dictization.model_dictize as model_dictize
+from ckan.common import g
 
-def aup_changed(user=None):
+def _get_user_name(user_id):
+    if not user_id:
+        return g.userobj.name
+
+    site_user = tk.get_action("get_site_user")({'ignore_auth': True}, {})["name"]
+    admin_ctx = {"ignore_auth": True, "user": site_user }
+    user_id = { "id": user_id, "include_plugin_extras": True }
+    return tk.get_action('user_show')(admin_ctx, user_id).get("name",None)
+
+
+def aup_changed(user_id=None):
     """Return True when the AUP has been changed"""
 
-    if not user:
-        user = c.userobj
+    user_name = _get_user_name(user_id)
 
     for impl in p.PluginImplementations(interface.IAcceptableUse):
-        changed = impl.aup_changed(user)
+        changed = impl.aup_changed(user_name)
         if changed:
             return True
 
     return False
 
 
-def aup_revision(user=None):
+def aup_revision(user_id=None):
     """Return the current revision of the AUP the user has agreed to or None"""
 
-    if not user:
-        user = c.userobj
+    user_name = _get_user_name(user_id)
 
     for impl in p.PluginImplementations(interface.IAcceptableUse):
-        revision = impl.aup_changed(user)
+        revision = impl.aup_revision(user_name)
         if revision:
             return revision
 

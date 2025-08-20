@@ -10,12 +10,12 @@ from . import schema
 
 action, get_actions = Collector().split()
 
-def _get_userobj(context, data_dict):
+def _get_user_name(context, data_dict):
     if data_dict.get('user_id'):
-        return model.User.get(data_dict['user_id'])
+        return data_dict['user_id']
 
     user = context.get('user', None)
-    return model.User.get(user)
+    return model.User.get(user).name
 
 @action
 @validate(schema.aup_update)
@@ -24,7 +24,7 @@ def aup_update(context, data_dict):
     # only to provided revision if admin
     tk.check_access("aup_update", context, data_dict)
 
-    userobj = _get_userobj(context, data_dict)
+    user_name = _get_user_name(context, data_dict)
 
     revision = None
     for impl in p.PluginImplementations(interface.IAcceptableUse):
@@ -34,7 +34,7 @@ def aup_update(context, data_dict):
 
     update = False
     for impl in p.PluginImplementations(interface.IAcceptableUse):
-        update = impl.aup_update(userobj,revision)
+        update = impl.aup_update(user_name,revision)
         if update:
             return update
 
@@ -48,11 +48,11 @@ def aup_revision(context, data_dict):
     # only non-self user if admin
     tk.check_access("aup_revision", context, data_dict)
 
-    userobj = _get_userobj(context, data_dict)
+    user_name = _get_user_name(context, data_dict)
 
     revision = None
     for impl in p.PluginImplementations(interface.IAcceptableUse):
-        revision = impl.aup_revision(userobj)
+        revision = impl.aup_revision(user_name)
 
     return revision or ""
 
@@ -63,11 +63,11 @@ def aup_clear(context, data_dict):
     # only update non-self user if admin
     tk.check_access("aup_clear", context, data_dict)
 
-    userobj = _get_userobj(context, data_dict)
+    user_name = _get_user_name(context, data_dict)
 
     clear = False
     for impl in p.PluginImplementations(interface.IAcceptableUse):
-        revision = impl.aup_clear(userobj)
+        revision = impl.aup_clear(user_name)
 
     return clear
 
