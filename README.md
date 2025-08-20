@@ -2,8 +2,12 @@
 
 # ckanext-aup
 
-**TODO:** Put a description of your extension here:  What does it do? What features does it have? Consider including some screenshots or embedding a video!
+ckanext-aup is a CKAN extension that requires users to agree to an
+Appropriate Usage Policy (AUP) to use CKAN
 
+When logged in, if the user has not agreed to the current revision
+this extension will not let the user proceed further until they
+agree
 
 ## Requirements
 
@@ -16,10 +20,10 @@ Compatibility with core CKAN versions:
 
 | CKAN version    | Compatible?   |
 | --------------- | ------------- |
-| 2.6 and earlier | not tested    |
-| 2.7             | not tested    |
-| 2.8             | not tested    |
-| 2.9             | not tested    |
+| 2.8 and earlier | not tested    |
+| 2.9             | yes           |
+| 2.10            | not yet       |
+| 2.11 and later  | not tested    |
 
 Suggested values:
 
@@ -59,18 +63,15 @@ To install ckanext-aup:
 
 ## Config settings
 
-FIXME
-None at present
-
-**TODO:** Document any optional config settings here. For example:
-
-	# The minimum number of hours to wait before re-checking a resource
-	# (optional, default: 24).
-	ckanext.aup.some_setting = some_default_value
+**TODO:** Document any config settings here. For example:
 
         # FIXME Add config declarations
+        # (required)
         ckanext.aup.policy_revision = 0.1
 
+## Template settings
+
+**TODO:** Document how the template is overidable
 
 ## Developer installation
 
