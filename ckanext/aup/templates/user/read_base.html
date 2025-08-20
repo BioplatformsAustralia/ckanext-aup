@@ -1,0 +1,20 @@
+{% ckan_extends %}
+
+{% block user_info %}
+{{ super() }}
+
+{% if is_myself or is_sysadmin %}
+      <div class="aup">
+        <dl>
+            <dt>{{ _('AUP') }} <span class="label label-default" title="{{ _('Acceptable Use Policy') }}">{{ _('Private') }}</span></dt>
+            <dd>
+              {{ h.aup_revision(user.name) }}
+              {% if is_sysadmin %}
+                (Need {{ h.aup_published() }})
+              {% endif %}
+            </dd>
+        </dl>
+      </div>
+{% endif %}
+
+{% endblock %}
