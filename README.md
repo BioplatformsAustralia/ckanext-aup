@@ -123,6 +123,14 @@ If ckanext-aup should be available on PyPI you can follow these steps to publish
        git tag 0.0.1
        git push --tags
 
+## Acknowledgements
+
+This work was supported by Bioplatforms Australia.
+
+Bioplatforms Australia is made possible through investment funding provided
+by the Commonwealth Government National Collaborative Research
+Infrastructure Strategy (NCRIS).
+
 ## License
 
 [AGPL](https://www.gnu.org/licenses/agpl-3.0.en.html)
