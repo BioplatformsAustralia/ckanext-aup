@@ -1,0 +1,19 @@
+# schema version of the config declaration. At the moment, the only valid value is `1`
+version: 1
+- annotation: ckanext-aup settings
+  options:
+    - key: ckanext.aup.policy_revision
+      default: 0.1
+      description: |
+          This configuration item sets the revision of the Appropriate
+          Usage Policy the ckanext-aup extension will enforce that the
+          user must agree to.
+
+          If the user has previously agreed to a revision of the
+          Appropriate Usage Policy, a string comparison is made
+          between the revisions.
+
+          If they differ, the user is asked to agree to the Appropriate
+          Usage Policy corresponding with the later revision.
+      validators: unicode_safe text_type
+      required: true
