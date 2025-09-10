@@ -3,7 +3,8 @@
 {% block subtitle %}{{ _('Acceptable Use Policy') }}{% endblock %}
 
 {% block breadcrumb_content %}
-  <li class="active">{% link_for _('Acceptable Use Policy'), 'aup' %}</li>
+  <li>{% link_for _('About'), named_route='home.about' %}</li>
+  <li class="active">{% link_for 'Acceptable Use Policy', named_route='aup.aup_published' %}</li>
 {% endblock %}
 
 {% block primary %}
