@@ -1,6 +1,7 @@
 import ckan.plugins.toolkit as tk
 from ckan.common import g
 from ckan import logic
+from ckan.lib.base import request
 
 from logging import getLogger
 
@@ -104,3 +105,15 @@ def aup_published():
     current_revision = tk.config.get(CONFIG_AUP_REVISION, CONFIG_AUP_REVISION_DEFAULT)
 
     return current_revision
+
+def aup_required():
+    """Return true if agreement to the AUP is required for that page
+
+    :rtype: bool
+    """
+
+    # exclude rejected AUP instructions
+    if request.path.startswith('/aup/rejected'):
+        return False
+
+    return True

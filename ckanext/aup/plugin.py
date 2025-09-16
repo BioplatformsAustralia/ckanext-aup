@@ -49,6 +49,9 @@ class AupPlugin(plugins.SingletonPlugin):
     def aup_published(self):
         return logic.aup_published()
 
+    def aup_required(self):
+        return logic.aup_required()
+
     # IActions
 
     def get_actions(self):

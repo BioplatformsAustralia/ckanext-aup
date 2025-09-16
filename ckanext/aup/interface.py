@@ -43,3 +43,11 @@ class IAcceptableUse(interfaces.Interface):
         :rtype: string
         """
         return ""
+
+    def aup_required(self):
+        """Return true if agreement to the AUP is required for that page
+
+        :rtype: bool
+        """
+
+        return True

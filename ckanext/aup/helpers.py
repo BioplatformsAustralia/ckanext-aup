@@ -51,9 +51,21 @@ def aup_published():
     return ""
 
 
+def aup_required():
+    """Return true if agreement to the AUP is required for that page"""
+
+    for impl in p.PluginImplementations(interface.IAcceptableUse):
+        required = impl.aup_required()
+        if required is not None:
+            return required
+
+    return True
+
+
 def get_helpers():
     return {
         "aup_changed": aup_changed,
         "aup_revision": aup_revision,
         "aup_published": aup_published,
+        "aup_required": aup_required,
     }

@@ -1,0 +1,28 @@
+{#
+Embeds instructions for when Acceptable Use Policy has been
+rejected into a page.
+
+
+    {% snippet 'snippets/acceptable_use_rejected.html' %}
+
+#}
+
+{% block acceptable_use_policy_rejected %}
+  <div name="aup_rejected">
+  <p>
+  This text is a placeholder for where you should describe 
+  what can occur when the Acceptable Use Policy and/or
+  Terms and Conditions for use of your CKAN installation
+  has been rejected by the user.
+  </p>
+
+  <p>
+  Provide some contact details here.
+  </p>
+
+  <p>
+  It is expected that you will override this block in your CKAN theme in most typical
+  CKAN installations.
+  </p>
+  </div>
+{% endblock %}

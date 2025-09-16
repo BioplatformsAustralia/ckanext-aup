@@ -5,7 +5,9 @@
 <input id="field-return-to" type="hidden" name="return_to" value="{{ h.current_url() }}">
 <div class="form-actions">
   <div class="btn-toolbar pull-right">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+    <button class="btn btn-secondary" name="reject" type="submit" data-dismiss="modal">
+       {% block reject_text %}{{ _('Reject') }}{% endblock %}
+    </button>
     <button class="btn btn-primary" name="accept" type="submit">
        <i class="fa fa-plus-circle"></i>
        {% block accept_text %}{{ _('Accept') }}{% endblock %}

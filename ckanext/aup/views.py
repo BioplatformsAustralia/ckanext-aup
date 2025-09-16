@@ -15,14 +15,22 @@ aup = Blueprint("aup", __name__)
 
 def aup_update():
     context = {"user": g.user}
+    aup_status = "unknown"
 
     try:
         form_dict = logic.clean_dict(
             dict_fns.unflatten(logic.tuplize_dict(logic.parse_params(request.form)))
         )
 
-        # FIXME check for accept value
-        logger.warn(form_dict)
+        if 'reject' in form_dict:
+            aup_status = "reject"
+            return h.redirect_to("aup.aup_rejected", return_to=form_dict.get("return_to", u'home.index'), aup_status=aup_status)
+
+        if 'accept' in form_dict:
+            aup_status = "accept"
+
+        if aup_status != "accept":
+            return abort(401, _("Unknown AUP status"))
 
         data_dict = {
             # FIXME allow override by API call
@@ -35,7 +43,7 @@ def aup_update():
     except dict_fns.DataError:
         return abort(400, _("Integrity Error"))
     except NotAuthorized:
-        message = _("Unauthorized to create pass {}").format(id)
+        message = _("Unauthorized")
         return abort(401, _(message))
     except NotFound as e:
         h.flash_error(_("User not found"))
@@ -46,14 +54,19 @@ def aup_update():
     else:
         h.flash_success(_("Acceptable Use Policy accepted"))
 
-    return h.redirect_to(form_dict.get("return_to", u'home.index'))
+    return h.redirect_to(form_dict.get("return_to", u'home.index'), aup_status=aup_status)
 
+def aup_rejected():
+    return render(
+        "ckanext_aup/aup_rejected.html"
+    )
 
 def aup_published():
     return render(
         "ckanext_aup/aup_view.html"
     )
 
+aup.add_url_rule("/aup/rejected", view_func=aup_rejected)
 aup.add_url_rule("/about/acceptable_use", view_func=aup_published)
 
 aup.add_url_rule(

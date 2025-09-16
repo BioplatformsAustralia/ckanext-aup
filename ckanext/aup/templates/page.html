@@ -4,7 +4,7 @@
 
 {% block main_content %}
 
-{% if logged_in and h.aup_changed() %}
+{% if logged_in and h.aup_changed() and h.aup_required() %}
 
 {% snippet 'ckanext_aup/aup.html' %}
 
