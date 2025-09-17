@@ -55,6 +55,8 @@ import ckan.tests.helpers as helpers
 import ckan.plugins.toolkit as tk
 import ckanext.aup.plugin as plugin
 
+from ckan.plugins import plugin_loaded
+
 
 @pytest.mark.ckan_config("ckan.plugins", "aup")
 @pytest.mark.usefixtures("with_plugins")
@@ -83,8 +85,7 @@ class TestAUPPlugin(object):
             "aup_published"
         )
 
-        assert(result["success"] == True)
-        assert(result["result"] == "42")
+        assert(result == "42")
 
     def test_aup_required(self):
         pass
