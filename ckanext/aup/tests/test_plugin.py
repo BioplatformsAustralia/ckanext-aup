@@ -66,19 +66,19 @@ def test_plugin():
 @pytest.mark.ckan_config("ckan.plugins", "aup")
 @pytest.mark.usefixtures("with_plugins")
 class TestAUPPlugin(object):
-    def test_aup_changed():
+    def test_aup_changed(self):
         pass
 
-    def test_aup_update():
+    def test_aup_update(self):
         pass
 
-    def test_aup_clear():
+    def test_aup_clear(self):
         pass
 
-    def test_aup_revision():
+    def test_aup_revision(self):
         pass
 
-    def test_aup_published():
+    def test_aup_published(self):
         result = helpers.call_action(
             "aup_published"
         )
@@ -86,5 +86,5 @@ class TestAUPPlugin(object):
         assert(result["success"] == True)
         assert(result["result"] == "42")
 
-    def test_aup_required():
+    def test_aup_required(self):
         pass
