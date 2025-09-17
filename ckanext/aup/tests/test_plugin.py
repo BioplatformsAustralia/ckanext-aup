@@ -68,10 +68,43 @@ def test_plugin():
 @pytest.mark.ckan_config("ckan.plugins", "aup")
 @pytest.mark.usefixtures("with_plugins")
 class TestAUPPlugin(object):
+    @pytest.mark.usefixtures("clean_db")
     def test_aup_changed(self):
+        user = factories.User(
+            plugin_extras={
+                'aup': {
+                    'acceptable_use_policy_revision': '41'
+                }
+            }
+        )
+
+        context = {'user': user['name']}
+        result = helpers.call_action(
+            "aup_changed"
+        )
+
+        assert(result == True)
+
+        user2 = factories.User(
+            plugin_extras={
+                'aup': {
+                    'acceptable_use_policy_revision': '42'
+                }
+            }
+        )
+
+        context = {'user': user2['name']}
+        result = helpers.call_action(
+            "aup_changed"
+        )
+
+        assert(result == False)
+
+
+    def test_aup_update_default(self):
         pass
 
-    def test_aup_update(self):
+    def test_aup_update_specific(self):
         pass
 
     def test_aup_clear(self):
