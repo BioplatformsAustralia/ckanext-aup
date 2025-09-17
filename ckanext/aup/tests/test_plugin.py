@@ -47,6 +47,12 @@ To temporary patch the CKAN configuration for the duration of a test you can use
     def test_some_action():
         pass
 """
+import pytest
+
+import ckan.model as model
+import ckan.tests.factories as factories
+import ckan.tests.helpers as helpers
+import ckan.plugins.toolkit as tk
 import ckanext.aup.plugin as plugin
 
 
@@ -54,3 +60,31 @@ import ckanext.aup.plugin as plugin
 @pytest.mark.usefixtures("with_plugins")
 def test_plugin():
     assert plugin_loaded("aup")
+
+
+@pytest.mark.ckan_config("ckanext.aup.policy_revision", "42")
+@pytest.mark.ckan_config("ckan.plugins", "aup")
+@pytest.mark.usefixtures("with_plugins")
+class TestAUPPlugin(object):
+    def test_aup_changed():
+        pass
+
+    def test_aup_update():
+        pass
+
+    def test_aup_clear():
+        pass
+
+    def test_aup_revision():
+        pass
+
+    def test_aup_published():
+        result = helpers.call_action(
+            "aup_published"
+        )
+
+        assert(result["success"] == True)
+        assert(result["result"] == "42")
+
+    def test_aup_required():
+        pass
