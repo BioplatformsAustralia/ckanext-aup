@@ -33,6 +33,15 @@ def _only_admin_user_for_field(data_dict, field):
     # fall through
     return {}
 
+
+@action
+def aup_changed(context, data_dict):
+    # retreive user obj
+    # only non-self user if admin
+
+    return _only_registered_user() | _only_admin_user_for_field(data_dict, "user_id")
+
+
 @action
 def aup_update(context, data_dict):
     # retreive user obj

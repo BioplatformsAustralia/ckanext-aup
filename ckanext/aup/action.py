@@ -17,6 +17,23 @@ def _get_user_name(context, data_dict):
     user = context.get('user', None)
     return model.User.get(user).name
 
+
+@action
+@tk.side_effect_free
+@validate(schema.aup_changed)
+def aup_changed(context, data_dict):
+    # only non-self user if admin
+    tk.check_access("aup_changed", context, data_dict)
+
+    user_name = _get_user_name(context, data_dict)
+
+    changed = False
+    for impl in p.PluginImplementations(interface.IAcceptableUse):
+        changed = impl.aup_changed(user_name)
+
+    return changed
+
+
 @action
 @validate(schema.aup_update)
 def aup_update(context, data_dict):
