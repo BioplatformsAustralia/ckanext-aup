@@ -38,20 +38,12 @@ class TestAUPViewsUpdates(object):
                 'acceptable_use_policy_revision': '41'
             }
         )
-
-        token_data = helpers.call_action(
-            "api_token_create",
-            context={"model": model, "user": user["name"]},
-            user=user["name"],
-            name="token-name",
-            expires_in=300,
-            unit=1,
-        )
+        user_token = factories.APIToken(user=user["id"])
 
         data = {
             "accept": "",
         }
-        auth = {"Authorization": token_data["token"]}
+        auth = {"Authorization": user_token["token"]}
         res = app.post(
             tk.h.url_for("aup.aup_update"),
             data=data,
@@ -79,20 +71,12 @@ class TestAUPViewsUpdates(object):
                 'acceptable_use_policy_revision': '41'
             }
         )
-
-        token_data = helpers.call_action(
-            "api_token_create",
-            context={"model": model, "user": user["name"]},
-            user=user["name"],
-            name="token-name",
-            expires_in=300,
-            unit=1,
-        )
+        user_token = factories.APIToken(user=user["id"])
 
         data = {
             "reject": "",
         }
-        auth = {"Authorization": token_data["token"]}
+        auth = {"Authorization": user_token["token"]}
         res = app.post(
             tk.h.url_for("aup.aup_update"),
             data=data,
