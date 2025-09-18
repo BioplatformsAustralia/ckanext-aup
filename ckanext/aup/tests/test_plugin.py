@@ -205,6 +205,3 @@ class TestAUPPlugin(object):
         )
 
         assert(result == "42")
-
-    def test_aup_required(self):
-        pass
