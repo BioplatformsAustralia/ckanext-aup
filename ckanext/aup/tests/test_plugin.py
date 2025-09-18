@@ -141,13 +141,10 @@ class TestAUPPlugin(object):
             'user': user['name'],
             "ignore_auth": True
             }
-        data_dict = {
-            'revision': "43"
-        }
         result = helpers.call_action(
             "aup_update",
             context=context,
-            **data_dict,
+            revision="43"
         )
 
         assert(result == True)
