@@ -2,9 +2,6 @@
 
 import pytest
 
-import ckanext.aup.validators as validators
-
-
 import ckan.plugins.toolkit as tk
 
 
