@@ -112,7 +112,28 @@ class TestAUPPlugin(object):
         pass
 
     def test_aup_clear(self):
-        pass
+        user = factories.User(
+            plugin_extras={
+                'acceptable_use_policy_revision': '3.11'
+            }
+        )
+
+        context = {
+            'user': user['name'],
+            "ignore_auth": True
+            }
+        result = helpers.call_action(
+            "aup_clear",
+            context=context,
+        )
+        assert(result == True)
+
+        result = helpers.call_action(
+            "aup_revision",
+            context=context,
+        )
+
+        assert(result == None)
 
     @pytest.mark.usefixtures("clean_db")
     def test_aup_revision(self):
