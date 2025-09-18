@@ -104,7 +104,6 @@ class TestAUPPlugin(object):
             }
         result = helpers.call_action(
             "aup_changed",
-            "ignore_auth": True
             context=context,
             **user
         )
