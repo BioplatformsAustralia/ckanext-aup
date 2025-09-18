@@ -43,7 +43,7 @@ class TestAUPViewsUpdates(object):
         data = {
             "accept": "",
         }
-        auth = {"Authorization": user_token["token"]}
+        auth = {"Authorization": str(user_token["token"])}
         res = app.post(
             tk.h.url_for("aup.aup_update"),
             data=data,
@@ -76,7 +76,7 @@ class TestAUPViewsUpdates(object):
         data = {
             "reject": "",
         }
-        auth = {"Authorization": user_token["token"]}
+        auth = {"Authorization": str(user_token["token"])}
         res = app.post(
             tk.h.url_for("aup.aup_update"),
             data=data,
