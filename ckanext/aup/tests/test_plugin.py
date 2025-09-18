@@ -79,7 +79,7 @@ class TestAUPPlugin(object):
         )
 
         context = {
-            'user_id': user['name'],
+            'user': user,
             "ignore_auth": True
             }
         result = helpers.call_action(
@@ -99,7 +99,7 @@ class TestAUPPlugin(object):
         )
 
         context = {
-            'user_id': user2['name'],
+            'user': user2,
             "ignore_auth": True
             }
         result = helpers.call_action(
