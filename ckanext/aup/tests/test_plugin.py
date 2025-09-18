@@ -71,9 +71,9 @@ class TestAUPPlugin(object):
     @pytest.mark.usefixtures("clean_db")
     def test_aup_changed(self):
         user = factories.User(
-            plugin_extras={
-                'acceptable_use_policy_revision': '41'
-            }
+        #    plugin_extras={
+        #        'acceptable_use_policy_revision': '41'
+        #    }
         )
 
         context = {
@@ -88,9 +88,9 @@ class TestAUPPlugin(object):
         assert(result == True)
 
         user2 = factories.User(
-            plugin_extras={
-                'acceptable_use_policy_revision': '42'
-            }
+        #    plugin_extras={
+        #        'acceptable_use_policy_revision': '42'
+        #    }
         )
 
         context = {
