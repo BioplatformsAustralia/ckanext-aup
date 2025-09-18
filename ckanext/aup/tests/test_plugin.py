@@ -106,9 +106,58 @@ class TestAUPPlugin(object):
 
 
     def test_aup_update_default(self):
-        pass
+        user = factories.User(
+            plugin_extras={
+                'acceptable_use_policy_revision': '41'
+            }
+        )
 
+        context = {
+            'user': user['name'],
+            "ignore_auth": True
+            }
+        result = helpers.call_action(
+            "aup_update",
+            context=context,
+        )
+
+        assert(result == True)
+
+        result = helpers.call_action(
+            "aup_revision",
+            context=context,
+        )
+
+        assert(result == "42")
+        
     def test_aup_update_specific(self):
+        user = factories.User(
+            plugin_extras={
+                'acceptable_use_policy_revision': '41'
+            }
+        )
+
+        context = {
+            'user': user['name'],
+            "ignore_auth": True
+            }
+        data_dict = {
+            'revision': "43"
+        }
+        result = helpers.call_action(
+            "aup_update",
+            context=context,
+            data_dict=data_dict,
+        )
+
+        assert(result == True)
+
+        result = helpers.call_action(
+            "aup_revision",
+            context=context,
+        )
+
+        assert(result == 42)
         pass
 
     def test_aup_clear(self):
