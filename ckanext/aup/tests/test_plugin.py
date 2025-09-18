@@ -72,9 +72,9 @@ class TestAUPPlugin(object):
     def test_aup_changed(self):
         user = factories.User(
             plugin_extras={
-                'aup': {
+        #        'aup': {
                     'acceptable_use_policy_revision': '41'
-                }
+        #        }
             }
         )
 
@@ -91,9 +91,9 @@ class TestAUPPlugin(object):
 
         user2 = factories.User(
             plugin_extras={
-                'aup': {
+        #        'aup': {
                     'acceptable_use_policy_revision': '42'
-                }
+        #        }
             }
         )
 
