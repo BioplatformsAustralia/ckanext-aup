@@ -39,10 +39,19 @@ class TestAUPViewsUpdates(object):
             }
         )
 
+        token_data = helpers.call_action(
+            "api_token_create",
+            context={"model": model, "user": user["name"]},
+            user=user["name"],
+            name="token-name",
+            expires_in=300,
+            unit=1,
+        )
+
         data = {
             "accept": "",
         }
-        auth = {"Authorization": str(user.apikey)}
+        auth = {"Authorization": token_data["token"]}
         res = app.post(
             tk.h.url_for("aup.aup_update"),
             data=data,
@@ -71,10 +80,19 @@ class TestAUPViewsUpdates(object):
             }
         )
 
+        token_data = helpers.call_action(
+            "api_token_create",
+            context={"model": model, "user": user["name"]},
+            user=user["name"],
+            name="token-name",
+            expires_in=300,
+            unit=1,
+        )
+
         data = {
             "reject": "",
         }
-        auth = {"Authorization": str(user.apikey)}
+        auth = {"Authorization": token_data["token"]}
         res = app.post(
             tk.h.url_for("aup.aup_update"),
             data=data,
