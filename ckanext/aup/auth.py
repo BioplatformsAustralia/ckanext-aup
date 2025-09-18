@@ -10,8 +10,15 @@ log = getLogger(__name__)
 
 action, get_auth_functions = Collector().split()
 
+def _is_logged_in():
+    if tk.check_ckan_version('2.9'):
+        return g.user
+    else:
+        return authz.auth_is_loggedin_user()
+
+
 def _only_registered_user():
-    if not authz.auth_is_loggedin_user():
+    if not _is_logged_in():
         return {'success': False, 'msg': _('User is not logged in')}
     return {'success': True}
 
