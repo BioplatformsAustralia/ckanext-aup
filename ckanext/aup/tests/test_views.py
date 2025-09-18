@@ -47,7 +47,7 @@ class TestAUPViewsUpdates(object):
         res = app.post(
             tk.h.url_for("aup.aup_update"),
             data=data,
-            extra_environ=auth,
+            headers=auth,
         )
         assert res.status_code == 200
         res_dict = json.loads(res.data)
@@ -80,7 +80,7 @@ class TestAUPViewsUpdates(object):
         res = app.post(
             tk.h.url_for("aup.aup_update"),
             data=data,
-            extra_environ=auth,
+            headers=auth,
         )
         assert res.status_code == 302
         assert res.headers[u'Location'] == tk.url_for(u'aup.aup_rejected', _external=True)
