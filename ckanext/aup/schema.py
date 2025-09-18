@@ -1,5 +1,4 @@
 import ckan.plugins.toolkit as tk
-from six import text_type
 
 def aup_changed():
     #  user_id (string)
@@ -11,7 +10,7 @@ def aup_changed():
     return {
         "user_id": [
             ignore_missing,
-            text_type,
+            unicode_safe,
             user_id_or_name_exists,
             convert_user_name_or_id_to_id,
         ],
@@ -28,7 +27,7 @@ def aup_revision():
     return {
         "user_id": [
             ignore_missing,
-            text_type,
+            unicode_safe,
             user_id_or_name_exists,
             convert_user_name_or_id_to_id,
         ],
@@ -46,13 +45,13 @@ def aup_update():
     return {
         "user_id": [
             ignore_missing,
-            text_type,
+            unicode_safe,
             user_id_or_name_exists,
             convert_user_name_or_id_to_id,
         ],
         "revision": [
             ignore_missing,
-            text_type,
+            unicode_safe,
         ],
     }
 
@@ -67,7 +66,7 @@ def aup_clear():
     return {
         "user_id": [
             ignore_missing,
-            text_type,
+            unicode_safe,
             user_id_or_name_exists,
             convert_user_name_or_id_to_id,
         ],
