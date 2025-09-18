@@ -78,7 +78,7 @@ class TestAUPPlugin(object):
             }
         )
 
-        context = {'user': user['name']}
+        context = {'user_id': user['name']}
         result = helpers.call_action(
             "aup_changed"
         )
@@ -93,7 +93,7 @@ class TestAUPPlugin(object):
             }
         )
 
-        context = {'user': user2['name']}
+        context = {'user_id': user2['name']}
         result = helpers.call_action(
             "aup_changed"
         )
