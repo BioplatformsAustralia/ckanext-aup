@@ -84,7 +84,7 @@ def aup_clear(context, data_dict):
 
     clear = False
     for impl in p.PluginImplementations(interface.IAcceptableUse):
-        revision = impl.aup_clear(user_name)
+        clear = impl.aup_clear(user_name)
 
     return clear
 

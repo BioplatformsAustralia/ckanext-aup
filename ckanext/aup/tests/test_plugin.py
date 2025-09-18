@@ -133,7 +133,7 @@ class TestAUPPlugin(object):
             context=context,
         )
 
-        assert(result == None)
+        assert(result == "")
 
     @pytest.mark.usefixtures("clean_db")
     def test_aup_revision(self):
