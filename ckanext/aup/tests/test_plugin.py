@@ -147,7 +147,7 @@ class TestAUPPlugin(object):
         result = helpers.call_action(
             "aup_update",
             context=context,
-            data_dict=data_dict,
+            **data_dict,
         )
 
         assert(result == True)
@@ -157,8 +157,7 @@ class TestAUPPlugin(object):
             context=context,
         )
 
-        assert(result == 42)
-        pass
+        assert(result == "43")
 
     def test_aup_clear(self):
         user = factories.User(
