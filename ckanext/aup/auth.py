@@ -25,7 +25,7 @@ def _only_registered_user():
 
 def _only_admin_user_for_field(data_dict, field):
     """ Only allowed to sysadmins or organization admins """
-    if not authz.auth_is_loggedin_user():
+    if not _is_logged_in():
         return {'success': False, 'msg': _('User is not logged in')}
 
     if not g.userobj:
