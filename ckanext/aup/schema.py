@@ -66,7 +66,7 @@ def aup_clear():
 
     return {
         "user_id": [
-            not_empty,
+            ignore_missing,
             text_type,
             user_id_or_name_exists,
             convert_user_name_or_id_to_id,
