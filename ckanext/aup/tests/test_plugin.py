@@ -78,9 +78,14 @@ class TestAUPPlugin(object):
             }
         )
 
-        context = {'user_id': user['name']}
+        context = {
+            'user_id': user['name'],
+            "ignore_auth": True
+            }
         result = helpers.call_action(
-            "aup_changed"
+            "aup_changed",
+            context=context,
+            **user
         )
 
         assert(result == True)
@@ -93,9 +98,15 @@ class TestAUPPlugin(object):
             }
         )
 
-        context = {'user_id': user2['name']}
+        context = {
+            'user_id': user2['name'],
+            "ignore_auth": True
+            }
         result = helpers.call_action(
-            "aup_changed"
+            "aup_changed",
+            "ignore_auth": True
+            context=context,
+            **user
         )
 
         assert(result == False)
