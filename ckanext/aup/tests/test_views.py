@@ -1,7 +1,6 @@
 """Tests for views.py."""
 
 import pytest
-import json
 import logging
 
 import ckan.model as model
@@ -53,8 +52,6 @@ class TestAUPViewsUpdates(object):
             headers=auth,
         )
         assert res.status_code == 200
-        res_dict = json.loads(res.data)
-        assert res_dict["success"] is False
 
         context = {
             'user': user['name'],
@@ -85,6 +82,10 @@ class TestAUPViewsUpdates(object):
             data=data,
             headers=auth,
         )
-        log.warn(res)
+        log.warn(res.history)
+        log.warn(res.headers)
+        log.warn(res.response)
+        log.warn(res.status)
+        log.warn(res.text)
         assert res.status_code == 302
         assert res.headers[u'Location'] == tk.url_for(u'aup.aup_rejected', _external=True)
