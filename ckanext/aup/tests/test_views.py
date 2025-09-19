@@ -119,6 +119,7 @@ class TestAUPViewsUpdates(object):
     
     @pytest.mark.usefixtures("clean_db")
     def test_aup_update_user_deleted(self, app, reset_db):
+        sysadmin = factories.Sysadmin()
         user = factories.User(
             plugin_extras={
                 'acceptable_use_policy_revision': '41'
@@ -129,7 +130,15 @@ class TestAUPViewsUpdates(object):
         data = {}
         auth = {"Authorization": str(user_token["token"])}
 
-        user.delete()
+        context = {
+            'user': sysadmin['name'],
+            "ignore_auth": True
+            }
+
+        result = helpers.call_action(
+            "user_delete",
+            context=context,
+        )
 
         res = app.post(
             tk.h.url_for("aup.aup_update"),
