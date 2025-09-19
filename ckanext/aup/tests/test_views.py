@@ -138,6 +138,7 @@ class TestAUPViewsUpdates(object):
         result = helpers.call_action(
             "user_delete",
             context=context,
+            id=user["name"]
         )
 
         res = app.post(
