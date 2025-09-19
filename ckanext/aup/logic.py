@@ -2,6 +2,8 @@ import ckan.plugins.toolkit as tk
 from ckan.common import g
 from ckan import logic
 from ckan.lib.base import request
+from ckan.logic import NotFound
+
 
 from logging import getLogger
 
@@ -16,7 +18,7 @@ CONFIG_AUP_REVISION_DEFAULT = "0.1"
 
 def _get_user(user_name):
     if not user_name:
-        raise login.NotFound
+        raise NotFound
 
     user_id = { "id": user_name, "include_plugin_extras": True }
     user = tk.get_action('user_show')(_get_admin_ctx(), user_id)
