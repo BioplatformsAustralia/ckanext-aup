@@ -82,10 +82,6 @@ class TestAUPViewsUpdates(object):
             data=data,
             headers=auth,
         )
-        log.warn(res.history)
-        log.warn(res.headers)
-        log.warn(res.response)
-        log.warn(res.status)
-        log.warn(res.text)
-        assert res.status_code == 302
-        assert res.headers[u'Location'] == tk.url_for(u'aup.aup_rejected', _external=True)
+
+        assert res.status_code == 200
+        assert res.request.path == tk.url_for('aup.aup_rejected')
