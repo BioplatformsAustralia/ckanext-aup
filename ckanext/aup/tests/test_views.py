@@ -1,6 +1,8 @@
 """Tests for views.py."""
 
 import pytest
+import json
+import logging
 
 import ckan.model as model
 import ckan.tests.factories as factories
@@ -8,6 +10,7 @@ import ckan.tests.helpers as helpers
 import ckan.plugins.toolkit as tk
 import ckanext.aup.plugin as plugin
 
+log = logging.getLogger(__name__)
 
 @pytest.mark.ckan_config("ckan.plugins", "aup")
 @pytest.mark.usefixtures("with_plugins")
@@ -82,5 +85,6 @@ class TestAUPViewsUpdates(object):
             data=data,
             headers=auth,
         )
+        log.warn(res)
         assert res.status_code == 302
         assert res.headers[u'Location'] == tk.url_for(u'aup.aup_rejected', _external=True)
