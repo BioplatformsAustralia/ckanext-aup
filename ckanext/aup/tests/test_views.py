@@ -116,3 +116,26 @@ class TestAUPViewsUpdates(object):
         )
 
         assert res.status_code == 401
+    
+    @pytest.mark.usefixtures("clean_db")
+    def test_aup_update_user_deleted(self, app, reset_db):
+        user = factories.User(
+            plugin_extras={
+                'acceptable_use_policy_revision': '41'
+            }
+        )
+        user_token = factories.APIToken(user=user["id"])
+
+        data = {}
+        auth = {"Authorization": str(user_token["token"])}
+
+        user.delete()
+
+        res = app.post(
+            tk.h.url_for("aup.aup_update"),
+            data=data,
+            headers=auth,
+        )
+
+        assert res.status_code == 200
+        assert res.request.path == tk.url_for('home.index')
