@@ -104,3 +104,15 @@ class TestAUPViewsUpdates(object):
         )
 
         assert res.status_code == 401
+
+    @pytest.mark.usefixtures("clean_db")
+    def test_aup_update_unauthorized(self, app, reset_db):
+        user = factories.User()
+
+        data = {}
+        res = app.post(
+            tk.h.url_for("aup.aup_update"),
+            data=data,
+        )
+
+        assert res.status_code == 401
