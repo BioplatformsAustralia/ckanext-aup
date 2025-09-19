@@ -4,6 +4,7 @@ import pytest
 import logging
 
 import ckan.model as model
+import ckan.logic as logic
 import ckan.tests.factories as factories
 import ckan.tests.helpers as helpers
 import ckan.plugins.toolkit as tk
@@ -141,11 +142,9 @@ class TestAUPViewsUpdates(object):
             id=user["name"]
         )
 
-        res = app.post(
-            tk.h.url_for("aup.aup_update"),
-            data=data,
-            headers=auth,
-        )
-
-        assert res.status_code == 200
-        assert res.request.path == tk.url_for('home.index')
+        with pytest.raises(logic.NotFound):
+            res = app.post(
+                tk.h.url_for("aup.aup_update"),
+                data=data,
+                headers=auth,
+            )
