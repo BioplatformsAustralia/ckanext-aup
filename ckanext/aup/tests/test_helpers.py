@@ -4,6 +4,7 @@ import pytest
 import ckan.tests.factories as factories
 import ckan.plugins.toolkit as tk
 import ckanext.aup.helpers as aup_helpers
+import ckan.model as model
 from ckan.common import g
 
 
@@ -18,8 +19,10 @@ class TestAUPHelpers(object):
             }
         )
 
+        userobj = model.User.by_name(user["name"])
+
         g.user = user["name"]
-        g.userobj = user
+        g.userobj = userobj
 
         assert aup_helpers.aup_changed() == True
 
@@ -29,8 +32,10 @@ class TestAUPHelpers(object):
             }
         )
 
+        user2obj = model.User.by_name(user2["name"])
+
         g.user = user2["name"]
-        g.userobj = user2
+        g.userobj = user2obj
 
         assert aup_helpers.aup_changed() == False
 
@@ -60,8 +65,10 @@ class TestAUPHelpers(object):
             }
         )
 
+        userobj = model.User.by_name(user["name"])
+
         g.user = user["name"]
-        g.userobj = user
+        g.userobj = userobj
         
         assert aup_helpers.aup_revision() == "3.11"
 
