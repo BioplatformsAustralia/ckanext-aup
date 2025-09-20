@@ -89,7 +89,7 @@ class TestAUPHelpers(object):
     def test_aup_published(self):
         assert aup_helpers.aup_published() == "42"
 
-    def test_aup_required(self):
+    def test_aup_required(self,app):
         required = [
             tk.url_for('home.index'),
             tk.url_for('home.about'),
@@ -101,10 +101,12 @@ class TestAUPHelpers(object):
         ]
 
         for path in required:
-            assert aup_helpers.aup_required(path) == True
+            with app.flask_app.test_request_context(path):
+                assert aup_helpers.aup_required() == True
 
         for path in not_required:
-            assert aup_helpers.aup_required(path) == False
+            with app.flask_app.test_request_context(path):
+                assert aup_helpers.aup_required() == False
 
     def test_get_helpers(self):
         assert "aup_changed" in aup_helpers.get_helpers()
