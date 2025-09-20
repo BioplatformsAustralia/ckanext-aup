@@ -115,7 +115,7 @@ def aup_required():
     """
 
     # exclude rejected AUP instructions
-    if request.path.startswith('/aup/rejected'):
+    if request.path.startswith(tk.url_for('aup.aup_rejected')):
         return False
 
     return True
