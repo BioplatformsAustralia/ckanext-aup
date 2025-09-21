@@ -6,6 +6,7 @@ import ckan.tests.factories as factories
 import ckan.tests.helpers as test_helpers
 import ckan.model as model
 import ckan.logic as logic
+from ckan.common import g
 
 @pytest.mark.ckan_config("ckanext.aup.policy_revision", "42")
 @pytest.mark.ckan_config("ckan.plugins", "aup")
@@ -43,7 +44,7 @@ class TestAUPAuth(object):
     def test_aup_changed_sysadmin_with_other_userid(self):
         user = factories.User()
         sysadmin = factories.Sysadmin()
-        userobj = model.User.by_name(sysdmin["name"])
+        userobj = model.User.by_name(sysadmin["name"])
         # simulate logged in session
         g.user = user["name"]
         g.userobj = userobj
@@ -82,7 +83,7 @@ class TestAUPAuth(object):
     def test_aup_update_sysadmin_with_other_userid(self):
         user = factories.User()
         sysadmin = factories.Sysadmin()
-        userobj = model.User.by_name(sysdmin["name"])
+        userobj = model.User.by_name(sysadmin["name"])
         # simulate logged in session
         g.user = user["name"]
         g.userobj = userobj
@@ -121,7 +122,7 @@ class TestAUPAuth(object):
     def test_aup_revision_sysadmin_with_other_userid(self):
         user = factories.User()
         sysadmin = factories.Sysadmin()
-        userobj = model.User.by_name(sysdmin["name"])
+        userobj = model.User.by_name(sysadmin["name"])
         # simulate logged in session
         g.user = user["name"]
         g.userobj = userobj
@@ -160,7 +161,7 @@ class TestAUPAuth(object):
     def test_aup_clear_sysadmin_with_other_userid(self):
         user = factories.User()
         sysadmin = factories.Sysadmin()
-        userobj = model.User.by_name(sysdmin["name"])
+        userobj = model.User.by_name(sysadmin["name"])
         # simulate logged in session
         g.user = user["name"]
         g.userobj = userobj
