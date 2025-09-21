@@ -24,7 +24,7 @@ class TestAUPAuth(object):
         user = factories.User()
         user2 = factories.User()
         context = {"user": user["name"], "model": model}
-        with pytest.raises(logic.NotAuthorized)
+        with pytest.raises(logic.NotAuthorized):
            assert test_helpers.call_auth("aup_changed", context=context, user_id=user2["name"])
 
     def test_aup_changed_sysadmin_with_other_userid(self):
@@ -47,7 +47,7 @@ class TestAUPAuth(object):
         user = factories.User()
         user2 = factories.User()
         context = {"user": user["name"], "model": model}
-        with pytest.raises(logic.NotAuthorized)
+        with pytest.raises(logic.NotAuthorized):
            assert test_helpers.call_auth("aup_update", context=context, user_id=user2["name"])
     
     def test_aup_update_sysadmin_with_other_userid(self):
@@ -70,7 +70,7 @@ class TestAUPAuth(object):
         user = factories.User()
         user2 = factories.User()
         context = {"user": user["name"], "model": model}
-        with pytest.raises(logic.NotAuthorized)
+        with pytest.raises(logic.NotAuthorized):
            assert test_helpers.call_auth("aup_revision", context=context, user_id=user2["name"])
 
     def test_aup_revision_sysadmin_with_other_userid(self):
@@ -93,7 +93,7 @@ class TestAUPAuth(object):
         user = factories.User()
         user2 = factories.User()
         context = {"user": user["name"], "model": model}
-        with pytest.raises(logic.NotAuthorized)
+        with pytest.raises(logic.NotAuthorized):
            assert test_helpers.call_auth("aup_clear", context=context, user_id=user2["name"])
     
     def test_aup_clear_sysadmin_with_other_userid(self):
