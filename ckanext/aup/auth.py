@@ -67,7 +67,7 @@ def _only_self_or_admin_for_field(data_dict, field):
     if result.get('success') == True:
         return result
 
-    return result | _only_self_for_field(data_dict, field)
+    return _only_self_for_field(data_dict, field)
 
 
 @action
