@@ -34,7 +34,7 @@ def _only_self_for_field(data_dict, field):
 
     # user must be self to touch field
     if data_dict.get(field, None) and not (
-        model.User.get(g.user).name == model.User.get(data_dict.get(field).name)
+        model.User.get(g.user).name == model.User.get(data_dict.get(field)).name
         ):
         return {'success': False, 'msg': _('User must be self')}
 
