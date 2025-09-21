@@ -1,11 +1,14 @@
 """Tests for helpers.py."""
 
 import pytest
+import logging
 import ckan.tests.factories as factories
 import ckan.plugins.toolkit as tk
 import ckanext.aup.helpers as aup_helpers
 import ckan.model as model
 from ckan.common import g
+
+log = logging.getLogger(__name__)
 
 
 @pytest.mark.ckan_config("ckanext.aup.policy_revision", "42")
@@ -20,6 +23,9 @@ class TestAUPHelpers(object):
         )
 
         userobj = model.User.by_name(user["name"])
+
+        log.info(user)
+        log.info(userobj)
 
         g.user = user["name"]
         g.userobj = userobj
