@@ -24,9 +24,6 @@ class TestAUPHelpers(object):
 
         userobj = model.User.by_name(user["name"])
 
-        log.info(user)
-        log.info(userobj)
-
         g.user = user["name"]
         g.userobj = userobj
 
