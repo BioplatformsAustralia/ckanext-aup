@@ -89,6 +89,28 @@ class TestAUPAuth(object):
         g.userobj = userobj
         context = {"user": sysadmin["name"], "model": model}
         assert test_helpers.call_auth("aup_update", context=context, user_id=user["name"])
+    
+    def test_aup_update_revision_sysadmin(self):
+        revision = "43"
+        user = factories.User()
+        sysadmin = factories.Sysadmin()
+        userobj = model.User.by_name(sysadmin["name"])
+        # simulate logged in session
+        g.user = user["name"]
+        g.userobj = userobj
+        context = {"user": sysadmin["name"], "model": model}
+        assert test_helpers.call_auth("aup_update", context=context, user_id=user["name"], revision=revision)
+
+    def test_aup_update_revision_non_sysadmin(self):
+        revision = "43"
+        user = factories.User()
+        userobj = model.User.by_name(user["name"])
+        # simulate logged in session
+        g.user = user["name"]
+        g.userobj = userobj
+        context = {"user": user["name"], "model": model}
+        with pytest.raises(logic.NotAuthorized):
+            assert test_helpers.call_auth("aup_update", context=context, user_id=user["name"], revision=revision)
 
     def test_aup_revision_default(self):
         user = factories.User()
