@@ -3,6 +3,7 @@
 import pytest
 import logging
 import ckan.tests.factories as factories
+import ckan.plugins
 import ckan.plugins.toolkit as tk
 import ckanext.aup.helpers as aup_helpers
 import ckan.model as model
@@ -76,6 +77,24 @@ class TestAUPHelpers(object):
         assert aup_helpers.aup_revision() == "3.11"
 
     @pytest.mark.usefixtures("clean_db")
+    def test_aup_revision_unloaded(self):
+        user = factories.User(
+            plugin_extras={
+                'acceptable_use_policy_revision': '3.11'
+            }
+        )
+
+        userobj = model.User.by_name(user["name"])
+
+        g.user = user["name"]
+        g.userobj = userobj
+
+        ckan.plugins.unload("aup")
+        
+        assert aup_helpers.aup_revision() == None
+
+
+    @pytest.mark.usefixtures("clean_db")
     def test_aup_revision_user_id(self):
         user = factories.User()
 
@@ -91,6 +110,11 @@ class TestAUPHelpers(object):
 
     def test_aup_published(self):
         assert aup_helpers.aup_published() == "42"
+
+    def test_aup_published_unloaded(self):
+        ckan.plugins.unload("aup")
+
+        assert aup_helpers.aup_published() == ""
 
     def test_aup_required(self,app):
         required = [
@@ -110,6 +134,14 @@ class TestAUPHelpers(object):
         for path in not_required:
             with app.flask_app.test_request_context(path):
                 assert aup_helpers.aup_required() == False
+
+    def test_aup_required_unloaded(self,app):
+        ckan.plugins.unload("aup")
+        
+        path = tk.url_for('home.index')
+
+        with app.flask_app.test_request_context(path):
+             assert aup_helpers.aup_required() == True
 
     def test_get_helpers(self):
         assert "aup_changed" in aup_helpers.get_helpers()
