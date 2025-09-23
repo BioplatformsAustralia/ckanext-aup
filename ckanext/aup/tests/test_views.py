@@ -52,7 +52,7 @@ class TestAUPViewsUpdates(object):
         data = {
             "accept": "",
         }
-        auth = {"Authorization": key)}
+        auth = {"Authorization": key}
         res = app.post(
             tk.h.url_for("aup.aup_update"),
             data=data,
@@ -89,7 +89,7 @@ class TestAUPViewsUpdates(object):
         data = {
             "reject": "",
         }
-        auth = {"Authorization": key)}
+        auth = {"Authorization": key}
         res = app.post(
             tk.h.url_for("aup.aup_update"),
             data=data,
@@ -115,7 +115,7 @@ class TestAUPViewsUpdates(object):
             key = user['apikey']
 
         data = {}
-        auth = {"Authorization": key)}
+        auth = {"Authorization": key}
 
         res = app.post(
             tk.h.url_for("aup.aup_update"),
@@ -154,7 +154,7 @@ class TestAUPViewsUpdates(object):
             key = user['apikey']
 
         data = {}
-        auth = {"Authorization": key)}
+        auth = {"Authorization": key}
 
         context = {
             'user': sysadmin['name'],
