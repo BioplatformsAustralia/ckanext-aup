@@ -35,18 +35,24 @@ def test_aup_published(app, reset_db):
 @pytest.mark.usefixtures("with_plugins")
 class TestAUPViewsUpdates(object):
     @pytest.mark.usefixtures("clean_db")
+    @pytest.mark.ckan_config('ckan.auth.create_default_api_keys', True)
     def test_aup_update_accepted(self, app, reset_db):
         user = factories.User(
             plugin_extras={
                 'acceptable_use_policy_revision': '41'
             }
         )
-        user_token = factories.APIToken(user=user["id"])
+
+        if tk.check_ckan_version(min_version='2.10'):
+            user_token = factories.APIToken(user=user["id"])
+            key = str(user_token["token"])
+        else:
+            key = user['apikey']
 
         data = {
             "accept": "",
         }
-        auth = {"Authorization": str(user_token["token"])}
+        auth = {"Authorization": key)}
         res = app.post(
             tk.h.url_for("aup.aup_update"),
             data=data,
@@ -66,18 +72,24 @@ class TestAUPViewsUpdates(object):
         assert(result == "42")
 
     @pytest.mark.usefixtures("clean_db")
+    @pytest.mark.ckan_config('ckan.auth.create_default_api_keys', True)
     def test_aup_update_rejected(self, app, reset_db):
         user = factories.User(
             plugin_extras={
                 'acceptable_use_policy_revision': '41'
             }
         )
-        user_token = factories.APIToken(user=user["id"])
+
+        if tk.check_ckan_version(min_version='2.10'):
+            user_token = factories.APIToken(user=user["id"])
+            key = str(user_token["token"])
+        else:
+            key = user['apikey']
 
         data = {
             "reject": "",
         }
-        auth = {"Authorization": str(user_token["token"])}
+        auth = {"Authorization": key)}
         res = app.post(
             tk.h.url_for("aup.aup_update"),
             data=data,
@@ -88,16 +100,23 @@ class TestAUPViewsUpdates(object):
         assert res.request.path == tk.url_for('aup.aup_rejected')
 
     @pytest.mark.usefixtures("clean_db")
+    @pytest.mark.ckan_config('ckan.auth.create_default_api_keys', True)
     def test_aup_update_nostatus(self, app, reset_db):
         user = factories.User(
             plugin_extras={
                 'acceptable_use_policy_revision': '41'
             }
         )
-        user_token = factories.APIToken(user=user["id"])
+
+        if tk.check_ckan_version(min_version='2.10'):
+            user_token = factories.APIToken(user=user["id"])
+            key = str(user_token["token"])
+        else:
+            key = user['apikey']
 
         data = {}
-        auth = {"Authorization": str(user_token["token"])}
+        auth = {"Authorization": key)}
+
         res = app.post(
             tk.h.url_for("aup.aup_update"),
             data=data,
@@ -119,6 +138,7 @@ class TestAUPViewsUpdates(object):
         assert res.status_code == 401
     
     @pytest.mark.usefixtures("clean_db")
+    @pytest.mark.ckan_config('ckan.auth.create_default_api_keys', True)
     def test_aup_update_user_deleted(self, app, reset_db):
         sysadmin = factories.Sysadmin()
         user = factories.User(
@@ -126,10 +146,15 @@ class TestAUPViewsUpdates(object):
                 'acceptable_use_policy_revision': '41'
             }
         )
-        user_token = factories.APIToken(user=user["id"])
+
+        if tk.check_ckan_version(min_version='2.10'):
+            user_token = factories.APIToken(user=user["id"])
+            key = str(user_token["token"])
+        else:
+            key = user['apikey']
 
         data = {}
-        auth = {"Authorization": str(user_token["token"])}
+        auth = {"Authorization": key)}
 
         context = {
             'user': sysadmin['name'],
