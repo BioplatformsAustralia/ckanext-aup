@@ -96,8 +96,14 @@ class TestAUPViewsUpdates(object):
             headers=auth,
         )
 
+        if tk.check_ckan_version(min_version='2.10'):
+            path = res.request.path
+        else:
+            res.autocorrect_location_header = False
+            path = res.headers['location']
+
         assert res.status_code == 200
-        assert res.request.path == tk.url_for('aup.aup_rejected')
+        assert path == tk.url_for('aup.aup_rejected')
 
     @pytest.mark.usefixtures("clean_db")
     @pytest.mark.ckan_config('ckan.auth.create_default_api_keys', True)
