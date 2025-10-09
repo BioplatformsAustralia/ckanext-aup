@@ -11,7 +11,11 @@
   <article class="module" role="main">
     <div class="module-content">
       {% block aup %}
-          <h1 class="page-heading">{{ _('Acceptable Use Policy') }}</h1>
+          <h1 class="page-heading">
+            {% block aup_subtitle %}
+              {{ _('Acceptable Use Policy') }}
+            {% endblock %}
+          </h1>
           <p>
           Revision {{ h.aup_published() }}
           </p>
