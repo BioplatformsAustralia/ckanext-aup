@@ -2,17 +2,10 @@
 
 {% set logged_in = true if c.userobj else false %}
 
-{% block main_content %}
-
-{% if logged_in and h.aup_changed() and h.aup_required() %}
-
-{% snippet 'ckanext_aup/aup.html' %}
-
-{% else %}
-
-{{ super() }}
-
-{% endif %}
-
-
+{% block content %}
+  {% if logged_in and h.aup_changed() and h.aup_required() %}
+    {% snippet 'ckanext_aup/aup_home_content.html' %}
+  {% else %}
+    {{ super() }}
+  {% endif %}
 {% endblock %}
