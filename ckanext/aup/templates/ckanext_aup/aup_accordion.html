@@ -1,0 +1,17 @@
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="heading{{ aup_group.id }}">
+      <h4 class="panel-title">
+        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ aup_group.id }}" aria-expanded="false" aria-controls="collapse{{ aup_group.id }}">
+          {{ aup_group.heading }}
+        </a>
+      </h4>
+      <p>
+        {{ aup_group.short }}
+      </p>
+    </div>
+    <div id="collapse{{ aup_group.id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{ aup_group.id }}">
+      <div class="panel-body">
+        {{ h.snippet(aup_group.snippet) }}
+      </div>
+    </div>
+  </div>
