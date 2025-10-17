@@ -1,0 +1,21 @@
+{% ckan_extends %}
+
+{% block secondary_content %}
+{{ super() }}
+
+  <div class="module module-narrow module-shallow">
+    <div class="module-content">
+
+      <div class="aup">
+        <dl>
+            <dt>{{ _('AUP Configured') }}</dt>
+            <dd>
+               Revision {{ h.aup_published() }}
+            </dd>
+        </dl>
+      </div>
+
+    </div>
+  </div>
+
+{% endblock %}
