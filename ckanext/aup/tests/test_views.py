@@ -98,16 +98,17 @@ class TestAUPViewsUpdates(object):
 
         if tk.check_ckan_version(min_version='2.10'):
             path = res.request.path
+            assert path == tk.url_for('aup.aup_rejected')
         else:
-            res.autocorrect_location_header = False
-            path = res.headers['location']
+            assert 'aup_rejected' in res.body
 
         assert res.status_code == 200
-        assert path == tk.url_for('aup.aup_rejected')
 
     @pytest.mark.usefixtures("clean_db")
     @pytest.mark.ckan_config('ckan.auth.create_default_api_keys', True)
-    def test_aup_update_nostatus(self, app, reset_db):
+    def test_aup_update_nostatus(self, app, reset_db, caplog):
+        caplog.set_level(logging.INFO)
+
         user = factories.User(
             plugin_extras={
                 'acceptable_use_policy_revision': '41'
@@ -129,10 +130,19 @@ class TestAUPViewsUpdates(object):
             headers=auth,
         )
 
-        assert res.status_code == 401
+        if tk.check_ckan_version(min_version='2.10'):
+            assert res.status_code == 401
+        else:
+            assert 'revision_agreed' in res.body
+
+            # Test the captured output
+            assert '401 Unauthorized: Unknown AUP status' in caplog.text
+            assert res.status_code == 200
 
     @pytest.mark.usefixtures("clean_db")
-    def test_aup_update_unauthorized(self, app, reset_db):
+    def test_aup_update_unauthorized(self, app, reset_db, caplog):
+        caplog.set_level(logging.INFO)
+
         user = factories.User()
 
         data = {}
@@ -141,11 +151,18 @@ class TestAUPViewsUpdates(object):
             data=data,
         )
 
-        assert res.status_code == 401
+        if tk.check_ckan_version(min_version='2.10'):
+            assert res.status_code == 401
+        else:
+            # Test the captured output
+            assert '401 Unauthorized: Unknown AUP status' in caplog.text
+            assert res.status_code == 200
     
     @pytest.mark.usefixtures("clean_db")
     @pytest.mark.ckan_config('ckan.auth.create_default_api_keys', True)
-    def test_aup_update_user_deleted(self, app, reset_db):
+    def test_aup_update_user_deleted(self, app, reset_db, caplog):
+        caplog.set_level(logging.INFO)
+
         sysadmin = factories.Sysadmin()
         user = factories.User(
             plugin_extras={
@@ -159,7 +176,9 @@ class TestAUPViewsUpdates(object):
         else:
             key = user['apikey']
 
-        data = {}
+        data = {
+            "accept": "",
+        }
         auth = {"Authorization": key}
 
         context = {
@@ -173,9 +192,16 @@ class TestAUPViewsUpdates(object):
             id=user["name"]
         )
 
-        with pytest.raises(logic.NotFound):
+        with pytest.raises(logic.NotAuthorized):
             res = app.post(
                 tk.h.url_for("aup.aup_update"),
                 data=data,
                 headers=auth,
             )
+
+            if tk.check_ckan_version(min_version='2.10'):
+                assert res.status_code == 401
+            else:
+                # Test the captured output
+                assert '401 Unauthorized: Unauthorized' in caplog.text
+                assert res.status_code == 200
