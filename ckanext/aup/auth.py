@@ -107,3 +107,25 @@ def aup_clear(context, data_dict):
 @tk.auth_allow_anonymous_access
 def aup_published(context, data_dict):
     return {"success": True}
+
+
+@action
+@tk.auth_allow_anonymous_access
+@tk.chained_auth_function
+def resource_show(next_auth, context, data_dict):
+    if tk.get_action("aup_changed")(context, data_dict):
+        return {'success': False, 'msg': _('User must agree to AUP before accessing resources')}
+
+    # fall through otherwise
+    return next_auth(context, data_dict)
+
+
+@action
+@tk.auth_allow_anonymous_access
+@tk.chained_auth_function
+def resource_view_show(next_auth, context, data_dict):
+    if tk.get_action("aup_changed")(context, data_dict):
+        return {'success': False, 'msg': _('User must agree to AUP before accessing resources')}
+
+    # fall through otherwise
+    return next_auth(context, data_dict)

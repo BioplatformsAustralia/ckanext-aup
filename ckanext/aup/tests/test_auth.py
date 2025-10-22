@@ -9,7 +9,7 @@ import ckan.logic as logic
 from ckan.common import g
 
 @pytest.mark.ckan_config("ckanext.aup.policy_revision", "42")
-@pytest.mark.ckan_config("ckan.plugins", "aup")
+@pytest.mark.ckan_config("ckan.plugins", "aup image_view")
 @pytest.mark.usefixtures("with_request_context", "with_plugins", "clean_db")
 class TestAUPAuth(object):
     def test_aup_changed_default(self):
@@ -194,3 +194,56 @@ class TestAUPAuth(object):
         user = factories.User()
         context = {"user": user["name"], "model": model}
         assert test_helpers.call_auth("aup_published", context=context)
+
+    def test_resource_show_aup_changed(self):
+        user = factories.User()
+        # simulate logged in session
+        userobj = model.User.by_name(user["name"])
+        g.user = user["name"]
+        g.userobj = userobj
+        context = {"user": user["name"], "model": model}
+        with pytest.raises(logic.NotAuthorized):
+            assert test_helpers.call_auth("resource_show", context=context)
+
+    def test_resource_show_aup_not_changed(self):
+        dataset = factories.Dataset()
+        resource = factories.Resource(package_id=dataset['id'])
+
+        user = factories.User(
+            plugin_extras={
+                'acceptable_use_policy_revision': '42'
+            }
+        )
+        # simulate logged in session
+        userobj = model.User.by_name(user["name"])
+        g.user = user["name"]
+        g.userobj = userobj
+        context = {"user": user["name"], "model": model}
+        data_dict = {"id": resource['id']}
+        assert test_helpers.call_auth("resource_show", context=context, **data_dict)
+
+    def test_resource_view_show_aup_changed(self):
+        user = factories.User()
+        # simulate logged in session
+        userobj = model.User.by_name(user["name"])
+        g.user = user["name"]
+        g.userobj = userobj
+        context = {"user": user["name"], "model": model}
+        with pytest.raises(logic.NotAuthorized):
+            assert test_helpers.call_auth("resource_view_show", context=context)
+
+    def test_resource_view_show_aup_not_changed(self):
+        resource_view = factories.ResourceView()
+
+        user = factories.User(
+            plugin_extras={
+                'acceptable_use_policy_revision': '42'
+            }
+        )
+        # simulate logged in session
+        userobj = model.User.by_name(user["name"])
+        g.user = user["name"]
+        g.userobj = userobj
+        context = {"user": user["name"], "model": model}
+        data_dict = {"id": resource_view['id']}
+        assert test_helpers.call_auth("resource_view_show", context=context, **data_dict)
