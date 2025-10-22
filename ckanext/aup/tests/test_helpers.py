@@ -17,11 +17,7 @@ log = logging.getLogger(__name__)
 @pytest.mark.usefixtures("with_plugins", "with_request_context")
 class TestAUPHelpers(object):
     def test_aup_changed_default(self):
-        user = factories.User(
-            plugin_extras={
-                'acceptable_use_policy_revision': '41'
-            }
-        )
+        user = factories.User(plugin_extras={"acceptable_use_policy_revision": "41"})
 
         userobj = model.User.by_name(user["name"])
 
@@ -30,11 +26,7 @@ class TestAUPHelpers(object):
 
         assert aup_helpers.aup_changed() == True
 
-        user2 = factories.User(
-            plugin_extras={
-                'acceptable_use_policy_revision': '42'
-            }
-        )
+        user2 = factories.User(plugin_extras={"acceptable_use_policy_revision": "42"})
 
         user2obj = model.User.by_name(user2["name"])
 
@@ -45,44 +37,28 @@ class TestAUPHelpers(object):
 
     @pytest.mark.usefixtures("clean_db")
     def test_aup_changed_user_id(self):
-        user = factories.User(
-            plugin_extras={
-                'acceptable_use_policy_revision': '41'
-            }
-        )
+        user = factories.User(plugin_extras={"acceptable_use_policy_revision": "41"})
 
         assert aup_helpers.aup_changed(user["name"]) == True
 
-        user2 = factories.User(
-            plugin_extras={
-                'acceptable_use_policy_revision': '42'
-            }
-        )
+        user2 = factories.User(plugin_extras={"acceptable_use_policy_revision": "42"})
 
         assert aup_helpers.aup_changed(user2["name"]) == False
 
     @pytest.mark.usefixtures("clean_db")
     def test_aup_revision_default(self):
-        user = factories.User(
-            plugin_extras={
-                'acceptable_use_policy_revision': '3.11'
-            }
-        )
+        user = factories.User(plugin_extras={"acceptable_use_policy_revision": "3.11"})
 
         userobj = model.User.by_name(user["name"])
 
         g.user = user["name"]
         g.userobj = userobj
-        
+
         assert aup_helpers.aup_revision() == "3.11"
 
     @pytest.mark.usefixtures("clean_db")
     def test_aup_revision_unloaded(self):
-        user = factories.User(
-            plugin_extras={
-                'acceptable_use_policy_revision': '3.11'
-            }
-        )
+        user = factories.User(plugin_extras={"acceptable_use_policy_revision": "3.11"})
 
         userobj = model.User.by_name(user["name"])
 
@@ -90,23 +66,16 @@ class TestAUPHelpers(object):
         g.userobj = userobj
 
         ckan.plugins.unload("aup")
-        
-        assert aup_helpers.aup_revision() == None
 
+        assert aup_helpers.aup_revision() == None
 
     @pytest.mark.usefixtures("clean_db")
     def test_aup_revision_user_id(self):
         user = factories.User()
 
-        user2 = factories.User(
-            plugin_extras={
-                'acceptable_use_policy_revision': '3.11'
-            }
-        )
+        user2 = factories.User(plugin_extras={"acceptable_use_policy_revision": "3.11"})
 
-        assert aup_helpers.aup_revision(user_id=user2['name']) == "3.11"
-
-
+        assert aup_helpers.aup_revision(user_id=user2["name"]) == "3.11"
 
     def test_aup_published(self):
         assert aup_helpers.aup_published() == "42"
@@ -116,15 +85,15 @@ class TestAUPHelpers(object):
 
         assert aup_helpers.aup_published() == ""
 
-    def test_aup_required(self,app):
+    def test_aup_required(self, app):
         required = [
-            tk.url_for('home.index'),
-            tk.url_for('home.about'),
-            tk.url_for('dataset.search'),
+            tk.url_for("home.index"),
+            tk.url_for("home.about"),
+            tk.url_for("dataset.search"),
         ]
 
         not_required = [
-            tk.url_for('aup.aup_rejected'),
+            tk.url_for("aup.aup_rejected"),
         ]
 
         for path in required:
@@ -135,13 +104,13 @@ class TestAUPHelpers(object):
             with app.flask_app.test_request_context(path):
                 assert aup_helpers.aup_required() == False
 
-    def test_aup_required_unloaded(self,app):
+    def test_aup_required_unloaded(self, app):
         ckan.plugins.unload("aup")
-        
-        path = tk.url_for('home.index')
+
+        path = tk.url_for("home.index")
 
         with app.flask_app.test_request_context(path):
-             assert aup_helpers.aup_required() == True
+            assert aup_helpers.aup_required() == True
 
     def test_get_helpers(self):
         assert "aup_changed" in aup_helpers.get_helpers()

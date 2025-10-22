@@ -1,5 +1,6 @@
 import ckan.plugins.toolkit as tk
 
+
 def aup_changed():
     #  user_id (string)
     not_empty = tk.get_validator("not_empty")
@@ -78,5 +79,4 @@ def aup_clear():
 
 
 def aup_published():
-
     return {}

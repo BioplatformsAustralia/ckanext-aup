@@ -61,34 +61,24 @@ import ckan.plugins.toolkit as tk
 class TestAUPLogic(object):
     @pytest.mark.usefixtures("clean_db")
     def test_logic_get_plugin_extras_present(self):
-        user = factories.User(
-            plugin_extras={
-                'acceptable_use_policy_revision': '3.11'
-            }
-        )
+        user = factories.User(plugin_extras={"acceptable_use_policy_revision": "3.11"})
 
-        context = {
-            'user': user['name'],
-            "ignore_auth": True
-            }
+        context = {"user": user["name"], "ignore_auth": True}
         result = helpers.call_action(
             "aup_revision",
             context=context,
         )
 
-        assert(result == "3.11")
+        assert result == "3.11"
 
     @pytest.mark.usefixtures("clean_db")
     def test_logic_get_plugin_extras_absent(self):
         user = factories.User()
 
-        context = {
-            'user': user['name'],
-            "ignore_auth": True
-            }
+        context = {"user": user["name"], "ignore_auth": True}
         result = helpers.call_action(
             "aup_revision",
             context=context,
         )
 
-        assert(result == "")
+        assert result == ""

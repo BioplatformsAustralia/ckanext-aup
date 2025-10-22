@@ -10,11 +10,12 @@ from . import schema
 
 action, get_actions = Collector().split()
 
-def _get_user_name(context, data_dict):
-    if data_dict.get('user_id'):
-        return data_dict['user_id']
 
-    user = context.get('user', None)
+def _get_user_name(context, data_dict):
+    if data_dict.get("user_id"):
+        return data_dict["user_id"]
+
+    user = context.get("user", None)
     return model.User.get(user).name
 
 
@@ -51,7 +52,7 @@ def aup_update(context, data_dict):
 
     update = False
     for impl in p.PluginImplementations(interface.IAcceptableUse):
-        update = impl.aup_update(user_name,revision)
+        update = impl.aup_update(user_name, revision)
         if update:
             return update
 

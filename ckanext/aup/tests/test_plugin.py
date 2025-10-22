@@ -70,160 +70,102 @@ def test_plugin():
 class TestAUPPlugin(object):
     @pytest.mark.usefixtures("clean_db")
     def test_aup_changed(self):
-        user = factories.User(
-            plugin_extras={
-                'acceptable_use_policy_revision': '41'
-            }
-        )
+        user = factories.User(plugin_extras={"acceptable_use_policy_revision": "41"})
 
-        context = {
-            'user': user['name'],
-            "ignore_auth": True
-            }
+        context = {"user": user["name"], "ignore_auth": True}
         result = helpers.call_action(
             "aup_changed",
             context=context,
         )
 
-        assert(result == True)
+        assert result == True
 
-        user2 = factories.User(
-            plugin_extras={
-                'acceptable_use_policy_revision': '42'
-            }
-        )
+        user2 = factories.User(plugin_extras={"acceptable_use_policy_revision": "42"})
 
-        context = {
-            'user': user2['name'],
-            "ignore_auth": True
-            }
+        context = {"user": user2["name"], "ignore_auth": True}
         result = helpers.call_action(
             "aup_changed",
             context=context,
         )
 
-        assert(result == False)
-
+        assert result == False
 
     def test_aup_update_default(self):
-        user = factories.User(
-            plugin_extras={
-                'acceptable_use_policy_revision': '41'
-            }
-        )
+        user = factories.User(plugin_extras={"acceptable_use_policy_revision": "41"})
 
-        context = {
-            'user': user['name'],
-            "ignore_auth": True
-            }
+        context = {"user": user["name"], "ignore_auth": True}
         result = helpers.call_action(
             "aup_update",
             context=context,
         )
 
-        assert(result == True)
+        assert result == True
 
         result = helpers.call_action(
             "aup_revision",
             context=context,
         )
 
-        assert(result == "42")
-        
+        assert result == "42"
+
     def test_aup_update_specific(self):
-        user = factories.User(
-            plugin_extras={
-                'acceptable_use_policy_revision': '41'
-            }
-        )
+        user = factories.User(plugin_extras={"acceptable_use_policy_revision": "41"})
 
-        context = {
-            'user': user['name'],
-            "ignore_auth": True
-            }
-        result = helpers.call_action(
-            "aup_update",
-            context=context,
-            revision="43"
-        )
+        context = {"user": user["name"], "ignore_auth": True}
+        result = helpers.call_action("aup_update", context=context, revision="43")
 
-        assert(result == True)
+        assert result == True
 
         result = helpers.call_action(
             "aup_revision",
             context=context,
         )
 
-        assert(result == "43")
+        assert result == "43"
 
     def test_aup_clear(self):
-        user = factories.User(
-            plugin_extras={
-                'acceptable_use_policy_revision': '3.11'
-            }
-        )
+        user = factories.User(plugin_extras={"acceptable_use_policy_revision": "3.11"})
 
-        context = {
-            'user': user['name'],
-            "ignore_auth": True
-            }
+        context = {"user": user["name"], "ignore_auth": True}
         result = helpers.call_action(
             "aup_clear",
             context=context,
         )
-        assert(result == True)
+        assert result == True
 
         result = helpers.call_action(
             "aup_revision",
             context=context,
         )
 
-        assert(result == "")
+        assert result == ""
 
     @pytest.mark.usefixtures("clean_db")
     def test_aup_revision(self):
-        user = factories.User(
-            plugin_extras={
-                'acceptable_use_policy_revision': '3.11'
-            }
-        )
+        user = factories.User(plugin_extras={"acceptable_use_policy_revision": "3.11"})
 
-        context = {
-            'user': user['name'],
-            "ignore_auth": True
-            }
+        context = {"user": user["name"], "ignore_auth": True}
         result = helpers.call_action(
             "aup_revision",
             context=context,
         )
 
-        assert(result == "3.11")
+        assert result == "3.11"
 
     @pytest.mark.usefixtures("clean_db")
     def test_aup_revision_for_userid(self):
         user = factories.User()
 
-        user2 = factories.User(
-            plugin_extras={
-                'acceptable_use_policy_revision': '3.11'
-            }
-        )
+        user2 = factories.User(plugin_extras={"acceptable_use_policy_revision": "3.11"})
 
-        context = {
-            'user': user['name'],
-            "ignore_auth": True
-            }
+        context = {"user": user["name"], "ignore_auth": True}
         result = helpers.call_action(
-            "aup_revision",
-            context=context,
-            user_id=user2['name']
+            "aup_revision", context=context, user_id=user2["name"]
         )
 
-        assert(result == "3.11")
+        assert result == "3.11"
 
     def test_aup_published(self):
-        result = helpers.call_action(
-            "aup_published"
-        )
+        result = helpers.call_action("aup_published")
 
-        assert(result == "42")
+        assert result == "42"

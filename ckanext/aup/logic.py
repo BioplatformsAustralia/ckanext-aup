@@ -9,7 +9,7 @@ from logging import getLogger
 
 logger = getLogger(__name__)
 
-AUP_KEY="acceptable_use_policy_revision"
+AUP_KEY = "acceptable_use_policy_revision"
 
 # FIXME Add config declarations
 CONFIG_AUP_REVISION = "ckanext.aup.policy_revision"
@@ -20,30 +20,34 @@ def _get_user(user_name):
     if not user_name:
         raise NotFound
 
-    user_id = { "id": user_name, "include_plugin_extras": True }
-    user = tk.get_action('user_show')(_get_admin_ctx(), user_id)
+    user_id = {"id": user_name, "include_plugin_extras": True}
+    user = tk.get_action("user_show")(_get_admin_ctx(), user_id)
     return user
 
+
 def _get_admin_ctx():
-    site_user = tk.get_action("get_site_user")({'ignore_auth': True}, {})["name"]
-    admin_ctx = {"ignore_auth": True, "user": site_user }
+    site_user = tk.get_action("get_site_user")({"ignore_auth": True}, {})["name"]
+    admin_ctx = {"ignore_auth": True, "user": site_user}
     return admin_ctx
+
 
 def _get_aup(user_name):
     user = _get_user(user_name)
     plugin_extras = _get_plugin_extras(user)
     return plugin_extras.get(AUP_KEY, None)
 
+
 def _save_aup(user_name, revision):
     user = _get_user(user_name)
     plugin_extras = _get_plugin_extras(user)
     plugin_extras[AUP_KEY] = revision
-    user['plugin_extras'] = plugin_extras
-    tk.get_action('user_update')(_get_admin_ctx(), user)
+    user["plugin_extras"] = plugin_extras
+    tk.get_action("user_update")(_get_admin_ctx(), user)
+
 
 def _get_plugin_extras(user):
-    if 'plugin_extras' in user and user.get('plugin_extras') is not None:
-        return user.get('plugin_extras')
+    if "plugin_extras" in user and user.get("plugin_extras") is not None:
+        return user.get("plugin_extras")
     else:
         return {}
 
@@ -56,11 +60,12 @@ def aup_changed(user_name):
 
     :rtype: bool
     """
-    
+
     current_revision = tk.config.get(CONFIG_AUP_REVISION, CONFIG_AUP_REVISION_DEFAULT)
     user_revision = _get_aup(user_name)
 
     return user_revision != current_revision
+
 
 def aup_update(user_name, revision=None):
     """Update users acceptance of the Acceptable Use Policy
@@ -79,6 +84,7 @@ def aup_update(user_name, revision=None):
 
     return True
 
+
 def aup_clear(user_name):
     """Clear users acceptance of the Acceptable Use Policy
 
@@ -89,6 +95,7 @@ def aup_clear(user_name):
 
     return True
 
+
 def aup_revision(user_name):
     """Return a string with the current Acceptable Use Policy revision for the user
 
@@ -97,7 +104,8 @@ def aup_revision(user_name):
 
     user_revision = _get_aup(user_name)
 
-    return '' if user_revision is None else str(user_revision)
+    return "" if user_revision is None else str(user_revision)
+
 
 def aup_published():
     """Return a string with the current Acceptable Use Policy revision that is required
@@ -108,6 +116,7 @@ def aup_published():
 
     return current_revision
 
+
 def aup_required():
     """Return true if agreement to the AUP is required for that page
 
@@ -115,7 +124,7 @@ def aup_required():
     """
 
     # exclude rejected AUP instructions
-    if request.path.startswith(tk.url_for('aup.aup_rejected')):
+    if request.path.startswith(tk.url_for("aup.aup_rejected")):
         return False
 
     return True

@@ -11,6 +11,7 @@ from logging import getLogger
 
 logger = getLogger(__name__)
 
+
 class AupPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.ITemplateHelpers)
@@ -18,7 +19,6 @@ class AupPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IBlueprint)
     plugins.implements(interface.IAcceptableUse, inherit=True)
-    
 
     # IConfigurer
 
@@ -31,7 +31,7 @@ class AupPlugin(plugins.SingletonPlugin):
 
     def get_helpers(self):
         return helpers.get_helpers()
-    
+
     # IAcceptableUse
 
     def aup_changed(self, user_name):

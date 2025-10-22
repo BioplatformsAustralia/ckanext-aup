@@ -11,8 +11,9 @@ log = getLogger(__name__)
 
 action, get_auth_functions = Collector().split()
 
+
 def _is_logged_in():
-    if tk.check_ckan_version(min_version='2.9'):
+    if tk.check_ckan_version(min_version="2.9"):
         return g.user
     else:
         return authz.auth_is_loggedin_user()
@@ -20,42 +21,42 @@ def _is_logged_in():
 
 def _only_registered_user():
     if not _is_logged_in():
-        return {'success': False, 'msg': _('User is not logged in')}
-    return {'success': True}
+        return {"success": False, "msg": _("User is not logged in")}
+    return {"success": True}
 
 
 def _only_self_for_field(data_dict, field):
     """Only allow access for self to resource"""
     if not _is_logged_in():
-        return {'success': False, 'msg': _('User is not logged in')}
+        return {"success": False, "msg": _("User is not logged in")}
 
     if not g.userobj:
-        return {'success': False}
+        return {"success": False}
 
     # user must be self to touch field
     if data_dict.get(field, None) and not (
         model.User.get(g.user).name == model.User.get(data_dict.get(field)).name
-        ):
-        return {'success': False, 'msg': _('User must be self')}
+    ):
+        return {"success": False, "msg": _("User must be self")}
 
     # fall through
     return {}
 
 
 def _only_admin_user_for_field(data_dict, field):
-    """ Only allowed to sysadmins or organization admins """
+    """Only allowed to sysadmins or organization admins"""
     if not _is_logged_in():
-        return {'success': False, 'msg': _('User is not logged in')}
+        return {"success": False, "msg": _("User is not logged in")}
 
     if not g.userobj:
-        return {'success': False}
+        return {"success": False}
 
     if authz.is_sysadmin(g.user):
-        return {'success': True}
+        return {"success": True}
 
     # user must be a sysadmin to touch field
     if data_dict.get(field, None) and not authz.is_sysadmin(g.user):
-        return {'success': False, 'msg': _('User must be a sysadmin')}
+        return {"success": False, "msg": _("User must be a sysadmin")}
 
     # fall through
     return {}
@@ -64,7 +65,7 @@ def _only_admin_user_for_field(data_dict, field):
 def _only_self_or_admin_for_field(data_dict, field):
     result = _only_admin_user_for_field(data_dict, field)
 
-    if result.get('success') == True:
+    if result.get("success") == True:
         return result
 
     return _only_self_for_field(data_dict, field)
@@ -84,7 +85,11 @@ def aup_update(context, data_dict):
     # only update non-self user if admin
     # only to provided revision if admin
 
-    return _only_registered_user() | _only_admin_user_for_field(data_dict, "revision") |  _only_self_or_admin_for_field(data_dict, "user_id")
+    return (
+        _only_registered_user()
+        | _only_admin_user_for_field(data_dict, "revision")
+        | _only_self_or_admin_for_field(data_dict, "user_id")
+    )
 
 
 @action
@@ -114,7 +119,10 @@ def aup_published(context, data_dict):
 @tk.chained_auth_function
 def resource_show(next_auth, context, data_dict):
     if tk.get_action("aup_changed")(context, data_dict):
-        return {'success': False, 'msg': _('User must agree to AUP before accessing resources')}
+        return {
+            "success": False,
+            "msg": _("User must agree to AUP before accessing resources"),
+        }
 
     # fall through otherwise
     return next_auth(context, data_dict)
@@ -125,7 +133,10 @@ def resource_show(next_auth, context, data_dict):
 @tk.chained_auth_function
 def resource_view_show(next_auth, context, data_dict):
     if tk.get_action("aup_changed")(context, data_dict):
-        return {'success': False, 'msg': _('User must agree to AUP before accessing resources')}
+        return {
+            "success": False,
+            "msg": _("User must agree to AUP before accessing resources"),
+        }
 
     # fall through otherwise
     return next_auth(context, data_dict)

@@ -4,14 +4,15 @@ import ckan.plugins.toolkit as tk
 import ckan.lib.dictization.model_dictize as model_dictize
 from ckan.common import g
 
+
 def _get_user_name(user_id):
     if not user_id:
         return g.userobj.name
 
-    site_user = tk.get_action("get_site_user")({'ignore_auth': True}, {})["name"]
-    admin_ctx = {"ignore_auth": True, "user": site_user }
-    user_id = { "id": user_id, "include_plugin_extras": True }
-    return tk.get_action('user_show')(admin_ctx, user_id).get("name",None)
+    site_user = tk.get_action("get_site_user")({"ignore_auth": True}, {})["name"]
+    admin_ctx = {"ignore_auth": True, "user": site_user}
+    user_id = {"id": user_id, "include_plugin_extras": True}
+    return tk.get_action("user_show")(admin_ctx, user_id).get("name", None)
 
 
 def aup_changed(user_id=None):

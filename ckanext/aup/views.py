@@ -22,11 +22,15 @@ def aup_update():
             dict_fns.unflatten(logic.tuplize_dict(logic.parse_params(request.form)))
         )
 
-        if 'reject' in form_dict:
+        if "reject" in form_dict:
             aup_status = "reject"
-            return h.redirect_to("aup.aup_rejected", return_to=form_dict.get("return_to", u'home.index'), aup_status=aup_status)
+            return h.redirect_to(
+                "aup.aup_rejected",
+                return_to=form_dict.get("return_to", "home.index"),
+                aup_status=aup_status,
+            )
 
-        if 'accept' in form_dict:
+        if "accept" in form_dict:
             aup_status = "accept"
 
         if aup_status != "accept":
@@ -47,24 +51,25 @@ def aup_update():
         return abort(401, _(message))
     except NotFound as e:
         h.flash_error(_("User not found"))
-        return h.redirect_to(u'home.index')
+        return h.redirect_to("home.index")
     except ValidationError as e:
         h.flash_error(e.error_summary)
-        return h.redirect_to(u'home.index')
+        return h.redirect_to("home.index")
     else:
         h.flash_success(_("Acceptable Use Policy accepted"))
 
-    return h.redirect_to(form_dict.get("return_to", u'home.index'), aup_status=aup_status)
+    return h.redirect_to(
+        form_dict.get("return_to", "home.index"), aup_status=aup_status
+    )
+
 
 def aup_rejected():
-    return render(
-        "ckanext_aup/aup_rejected.html"
-    )
+    return render("ckanext_aup/aup_rejected.html")
+
 
 def aup_published():
-    return render(
-        "ckanext_aup/aup_view.html"
-    )
+    return render("ckanext_aup/aup_view.html")
+
 
 aup.add_url_rule("/aup/rejected", view_func=aup_rejected)
 aup.add_url_rule("/about/acceptable_use", view_func=aup_published)
