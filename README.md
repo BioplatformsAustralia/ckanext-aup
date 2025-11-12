@@ -11,33 +11,17 @@ agree
 
 ## Requirements
 
-**TODO:** For example, you might want to mention here which versions of CKAN this
-extension works with.
-
-If your extension works across different versions you can add the following table:
-
 Compatibility with core CKAN versions:
 
-| CKAN version    | Compatible?   |
-| --------------- | ------------- |
-| 2.8 and earlier | not tested    |
-| 2.9             | yes           |
-| 2.10            | not yet       |
-| 2.11 and later  | not tested    |
-
-Suggested values:
-
-* "yes"
-* "not tested" - I can't think of a reason why it wouldn't work
-* "not yet" - there is an intention to get it working
-* "no"
+| CKAN version    | Compatible?            |
+| --------------- | ---------------------- |
+| 2.8 and earlier | not tested             |
+| 2.9             | yes                    |
+| 2.10            | yes, but still testing |
+| 2.11 and later  | yes, but still testing |
 
 
 ## Installation
-
-**TODO:** Add any additional install steps to the list below.
-   For example installing any non-Python dependencies or adding any required
-   config settings.
 
 To install ckanext-aup:
 
@@ -63,15 +47,47 @@ To install ckanext-aup:
 
 ## Config settings
 
-**TODO:** Document any config settings here. For example:
+ckanext-aup relies on the AUP revision to be set in your ckan.ini file.  If
+the version is different (or not set) for the current user, they will
+be asked to agree to the updated revision.
 
-        # FIXME Add config declarations
+        # ckanext-aup Current revision of AUP
         # (required)
         ckanext.aup.policy_revision = 0.1
 
 ## Template settings
 
-**TODO:** Document how the template is overidable
+ckanext-aup is designed around the system administrator overriding
+the templates included into ckanext-aup within your own CKAN theming
+
+1. templates/snippets/acceptable_use.html
+
+   These are the terms and conditions/AUP that the user needs to
+   agree to
+
+2. templates/snippets/acceptable_use_rejected.html
+
+   This is the advice if the user chooses not to agree to
+   the terms and conditions
+
+
+## Developer installation
+
+To install ckanext-aup for development, activate your CKAN virtualenv and
+do:
+
+    git clone https://github.com/BioplatformsAustralia/ckanext-aup.git
+    cd ckanext-aup
+    python setup.py develop
+    pip install -r dev-requirements.txt
+
+
+## Tests
+
+To run the tests, do:
+
+    pytest --ckan-ini=test.ini
+
 
 ## Developer installation
 
