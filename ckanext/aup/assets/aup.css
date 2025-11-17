@@ -1,0 +1,17 @@
+// for accordion chevrons
+
+a[id~="accordion"] .fa-chevron-right {
+   display:none;
+}
+a[aria-expanded=true] .fa-chevron-right {
+   display: none;
+}
+a[aria-hidden=false] .fa-chevron-right {
+   display: inline;
+}
+a[aria-expanded=false] .fa-chevron-down {
+   display: none;
+}
+a[aria-expanded=true] .fa-chevron-down {
+   display: inline;
+}

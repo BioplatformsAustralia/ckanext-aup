@@ -7,8 +7,8 @@
 #     preload:
 #       - base/main
 
-# aup-css:
-#   filter: cssrewrite
-#   output: ckanext-aup/%(version)s-aup.css
-#   contents:
-#     - css/aup.css
+aup-css:
+   filter: cssrewrite
+   output: ckanext-aup/%(version)s-aup.css
+   contents:
+     - aup.css

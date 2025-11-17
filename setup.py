@@ -2,6 +2,8 @@
 from setuptools import setup
 
 setup(
+    package_dir={"ckanext.aup": "ckanext/aup"},
+    package_data={'ckanext.aup': ['*.json', 'templates/*.html', 'templates/*/*.html', 'templates/*/*/*.html', 'templates/*/*/*/*.html','static/*.css', 'static/*.png', 'static/*.jpg', 'static/*.css', 'static/*.ico', 'assets/*.css']},
     # If you are changing from the default layout of your extension, you may
     # have to change the message extractors, you can read more about babel
     # message extraction at
